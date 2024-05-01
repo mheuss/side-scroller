@@ -1,6 +1,6 @@
 import * as React from "react";
 import { P5CanvasInstance, ReactP5Wrapper } from "@p5-wrapper/react";
-import { Orientation, PieceOfPaper } from "src/models/piece-of-paper";
+import { PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
 import { Mountain } from "src/models/mountain";
 import { Cloud } from "src/models/cloud";
@@ -16,7 +16,7 @@ function sketch(p5: P5CanvasInstance) {
   };
 
   p5.mousePressed = () => {
-    pieceOfPaper.move(p5.mouseX, p5.mouseY);
+    pieceOfPaper.setPosition(p5.mouseX, p5.mouseY);
   };
 
   p5.draw = () => {

@@ -30,16 +30,14 @@ export class Sprite {
    * @param x X coord
    * @param y Y coord
    */
-  protected setPosition = (x: number, y: number) => {
+  public setPosition = (x: number, y: number) => {
     this.x = x;
     this.y = y;
   };
 
-  protected processArray = (graphicData: any[][], debug: boolean = false) => {
+  protected processArray = (graphicData: any[][]) => {
     graphicData.forEach((shape: any[]) => {
       // This should be done more elegantly, but we gotta start somewhere
-
-      if (debug) console.log("processing ", shape);
 
       const { x, y, scale } = this;
       const [command, ...args] = shape;
@@ -61,9 +59,27 @@ export class Sprite {
           this.p5.circle(x + scale * x1, y + scale * y1, scale * d);
           break;
         }
+        case "curveVertex": {
+          const [x1, y1] = args;
+          this.p5.curveVertex(x + scale * x1, y + scale * y1);
+          break;
+        }
+        case "quad": {
+          const [x1, y1, x2, y2, x3, y3, x4, y4] = args;
+          this.p5.quad(
+            x + scale * x1,
+            y + scale * y1,
+            x + scale * x2,
+            y + scale * y2,
+            x + scale * x3,
+            y + scale * y3,
+            x + scale * x4,
+            y + scale * y4,
+          );
+          break;
+        }
         case "line": {
           const [x1, y1, x2, y2] = args;
-
           this.p5.line(
             x + scale * x1,
             y + scale * y1,
@@ -96,6 +112,11 @@ export class Sprite {
         case "vertex": {
           const [x1, y1] = args;
           this.p5.vertex(x + scale * x1, y + scale * y1);
+          break;
+        }
+        case "background": {
+          const [r, g, b] = args;
+          this.p5.background(r, g, b);
           break;
         }
         case "fill":

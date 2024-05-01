@@ -4,13 +4,13 @@ import { PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
 import { Mountain } from "src/models/mountain";
 import { Cloud } from "src/models/cloud";
-// import { Canyon } from "src/models/canyon";
+import { Canyon } from "src/models/canyon";
 
 function sketch(p5: P5CanvasInstance) {
   const pieceOfPaper = new PieceOfPaper(p5, 100, 440, 0.5);
   const mountain = new Mountain(p5, 465, 150, 6);
   const cloud = new Cloud(p5, 100, 100, 0.75);
-  // const canyon = new Canyon(p5, 400, 400, 1);
+  const canyon = new Canyon(p5, 300, 432, 1);
   p5.setup = () => {
     p5.createCanvas(1024, 576);
   };
@@ -20,7 +20,6 @@ function sketch(p5: P5CanvasInstance) {
   };
 
   p5.draw = () => {
-    // Sky
     p5.background(colors.blueSky);
     p5.smooth();
     p5.noStroke();
@@ -39,7 +38,7 @@ function sketch(p5: P5CanvasInstance) {
     mountain.draw();
     cloud.draw();
 
-    // canyon.draw();
+    canyon.draw();
     pieceOfPaper.draw();
   };
 }

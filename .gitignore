@@ -1,0 +1,10 @@
+
+.idea/
+
+.parcel-cache/
+
+dist/
+
+node_modules/.bin/
+
+node_modules/

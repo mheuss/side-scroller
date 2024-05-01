@@ -9,12 +9,9 @@ export class Cloud extends Sprite {
 
   drift = () => {
     this.move(-0.4, 0);
-    console.log("drifting cloud", this.x, this.y);
 
     if (this.x < -200 - this.scale * 100) {
-      console.log("in here");
       this.setPosition(this.scale * 100 + 1024, this.y);
-      console.log("resetting cloud", this.x, this.y);
     }
   };
 
@@ -23,7 +20,6 @@ export class Cloud extends Sprite {
    */
   draw = () => {
     const { x, y } = this;
-    console.log("drawing cloud", x, y);
     this.processArray([
       ["stroke", ...colors.cloudBorder],
       ["strokeWeight", 3],

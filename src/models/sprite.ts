@@ -20,7 +20,6 @@ export class Sprite {
    * @param y Y coord
    */
   protected move = (x: number, y: number) => {
-    console.log("Moving to");
     this.x = x + this.x;
     this.y = y + this.y;
   };

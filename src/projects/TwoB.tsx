@@ -7,7 +7,6 @@ import { Cloud } from "src/models/cloud";
 import { Canyon } from "src/models/canyon";
 import { Collectible } from "src/models/collectible";
 import { Tree } from "src/models/tree";
-import { TwoB } from "src/projects/TwoB";
 
 function sketch(p5: P5CanvasInstance) {
   const pieceOfPaper = new PieceOfPaper(p5, 100, 440, 0.5);
@@ -54,10 +53,27 @@ function sketch(p5: P5CanvasInstance) {
   };
 }
 
-export const App = () => (
-  <div className="h-screen flex items-center justify-center">
-    <div className={"border-gray-500 border border-solid bg-white"}>
-      <TwoB />
+export const TwoB = () => (
+  <>
+    <div className="flex h-16 justify-between">
+      <div className="flex bg-white">
+        <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+          <a
+            href="#"
+            className="border-indigo-500 text-gray-900 inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium"
+          >
+            Project 2A
+          </a>
+          <a
+            href="#"
+            className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium"
+            aria-current="page"
+          >
+            Project 2B
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
+    <ReactP5Wrapper sketch={sketch} />
+  </>
 );

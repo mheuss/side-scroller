@@ -10,7 +10,7 @@ import { Tree } from "src/models/tree";
 import { Menu } from "src/menu";
 
 function sketch(p5: P5CanvasInstance) {
-  const pieceOfPaper = new PieceOfPaper(p5, 100, 440, 0.5);
+  const pieceOfPaper = new PieceOfPaper(p5, 520, 420, 0.5);
   const mountain = new Mountain(p5, 465, 150, 6);
   const cloud = new Cloud(p5, 100, 100, 0.75);
   const canyon = new Canyon(p5, 300, 432, 1);

@@ -2,6 +2,7 @@ export const colors = {
   blueSky: [207, 240, 243],
   grassGreen: [0, 155, 0],
   stoneGray: [150, 150, 150],
+  lightGray: [200, 200, 200],
   midGray: [125, 125, 125],
   darkerGray: [100, 100, 100],
   cloudBorder: [88, 129, 159],

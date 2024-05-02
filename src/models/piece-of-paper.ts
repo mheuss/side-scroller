@@ -1,6 +1,46 @@
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { Sprite } from "src/models/sprite";
+import { colors } from "src/constants";
 
+/**
+ * Note:
+ * Interface - this is typescript, a layer on top of javascript.
+ * You define interfaces so your idea has an idea of what the data
+ * looks like, and it'll provide safeguards if you try to use the
+ * data in a way that doesn't match the interface.
+ */
+interface IPieceOfPaperData {
+  // This variable house an array of various poses and actions the model can take
+  models: IActionData[];
+}
+
+/**
+ * We break our models into actions, and then orientations. This interface tells us
+ * that the data is an array of arrays of arrays of any type. This is a bit of a
+ * mess - the any type is what we call `code smell`, but it's a way to represent
+ * the data in a way that is easy to understand.
+ *
+ * I chose `any` because the data can take a variety of shapes, one for each
+ * p5 command that we can use to render the model.
+ */
+interface IModelOrientationData {
+  data: any[][];
+}
+
+/**
+ * This interface is a bit more specific. It tells us that the data is an array of
+ * IModelOrientationData. Remember, our models are broken down into actions and
+ * orientations. This is the data that represents the action of the model, which
+ * then has an array of data that represents the orientation of the model.
+ */
+interface IActionData {
+  data: IModelOrientationData[];
+}
+
+/**
+ * An enum just to clarify the orientation of the model. Easier to read than
+ * `magic numbers`. Hard coding magic numbers is what we call `code smell`.
+ */
 export enum Orientation {
   LEFT = 0,
   RIGHT = 1,
@@ -8,19 +48,121 @@ export enum Orientation {
   DOWN = 3,
 }
 
-export class PieceOfPaper extends Sprite {
-  private currentOrientation: Orientation = Orientation.DOWN;
+/**
+ * An enum just to clarify the action of the model. Easier to read than
+ * `magic numbers`. Hard coding magic numbers is what we call `code smell`.
+ */
+export enum Action {
+  STANDING = 0,
+  JUMPING = 1,
+  WALKING = 2,
+}
 
+/**
+ * Here is our class. It extends Sprite class, which is a class that is used to
+ * render objects on the screen.
+ *
+ * This class defines the various shapes that can be rendered, as well as the current
+ * orientation and action of the model.
+ */
+export class PieceOfPaper extends Sprite {
+  private currentOrientation: Orientation;
+  private currentAction: Action;
+  private modelData: IPieceOfPaperData;
+
+  /**
+   * The constructor for the class. It sets the orientation and action of the model
+   * @param p5 A reference to the p5 base class
+   * @param x The x coordinate of the sprite
+   * @param y The y coordinate of the sprite
+   * @param scale The scale of the sprite. Scaling is used to render distant objects
+   * smaller.
+   */
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
     super(p5, x, y, scale ?? 1);
     this.currentOrientation = Orientation.DOWN;
+    this.currentAction = Action.STANDING;
+    this.modelData = this.buildModels();
   }
 
+  /**
+   * Actually goes and gets all permutations of a model
+   * so when it comes time to render a given model doing
+   * a given action, we just look up the results.
+   *
+   * This takes more memory, its true. But it removes the conditionals
+   * when it comes time to render, and allows us to just use a look up
+   * table
+   */
+  public buildModels = () => {
+    const workingModelData: IPieceOfPaperData = {
+      models: [],
+    };
+
+    // The intention here is as follows:
+    // We are going to cycle through the possibles orientations and
+    // actions to build the models
+
+    // Get the orientations. Enum keys are stored by both the index number
+    // and the user friendly strings. We want to filter out the user friendly
+    // strings
+    const orientations = Object.keys(Orientation).filter((value) =>
+      isNaN(Number(value)),
+    );
+
+    // Now - create all the models needed to render a person drawn on a
+    // piece of paper.
+    const actions = Object.keys(Action).filter((value) => isNaN(Number(value)));
+    //@ todo: We are going to add a different level - the level that'll provide character animation
+    // When we do, we'll have yet another level that'll define the frames and the period
+    // of time they are drawn for.
+
+    // We want to iterate over the enum for actions
+    actions.forEach((_key, actionIndex) => {
+      // Initialize the working data with an empty action
+      workingModelData.models[actionIndex] = {
+        data: [],
+      };
+
+      // Initialize the orientation data
+      orientations.forEach((_key, orientationIndex) => {
+        workingModelData.models[actionIndex].data[orientationIndex] = {
+          data: [],
+        };
+
+        // Now get the actual model
+        workingModelData.models[actionIndex].data[orientationIndex].data.push(
+          ...this.assembleModel(orientationIndex, actionIndex),
+        );
+      });
+    });
+
+    // Return all that data so it can get saved in the member variable.
+    return workingModelData;
+  };
+
+  /**
+   * Sets the orientation of the model (UP, DOWN, LEFT, RIGHT)
+   * @param orientation
+   */
   public setOrientation(orientation: Orientation) {
     this.currentOrientation = orientation;
   }
 
-  private jaggyShape = (offset: number = 0) => {
+  /**
+   * Sets the action of the model (STANDING, JUMPING, WALKING)
+   * @param action
+   */
+  public setAction(action: Action) {
+    this.currentAction = action;
+  }
+
+  /**
+   * This returns an array that represents the shape of a jagged rip of notebook paper
+   * @param offset The offset is used to allow this to be rendered n times - but for our
+   * purposes, once with a black fill, and once with a white fill.
+   */
+  private jaggedShape = (offset: number = 0) => {
     return [
       ["beginShape"],
       ["vertex", offset, offset],
@@ -54,6 +196,14 @@ export class PieceOfPaper extends Sprite {
     ];
   };
 
+  /**
+   * This will return the angle between two points. I'm gonna use this to allow my
+   * character to always face the mouse pointer.
+   *
+   * This may be rendered moot by future assignments, however I like it for now.
+   * @param x2
+   * @param y2
+   */
   angleBetweenPoints = (x2: number, y2: number) => {
     const { x, y } = this;
     const deltaX = x2 - x;
@@ -61,8 +211,112 @@ export class PieceOfPaper extends Sprite {
     return Math.atan2(deltaY, deltaX);
   };
 
-  private person(orientation: Orientation): any[] {
+  /**
+   * This will provide an array of instructions that can be used to render
+   * a jumping person, depending on his orientation
+   * @param orientation
+   * @returns any[][]
+   */
+  private jumpingPerson = (orientation: Orientation): any[] => {
     const person: any[] = [];
+
+    if (orientation === Orientation.UP || orientation === Orientation.DOWN) {
+      person.push(
+        ["noFill"],
+        ["stroke", 30, 30, 30],
+        ["circle", 60, 60, 40],
+        ["line", 60, 80, 60, 140],
+        // Legs
+        ["line", 60, 140, 85, 135],
+        ["line", 85, 135, 80, 155],
+        ["line", 60, 140, 45, 135],
+        ["line", 45, 135, 40, 160],
+        // Arms
+        ["line", 60, 100, 45, 120],
+        ["line", 45, 120, 40, 110],
+        ["line", 60, 100, 85, 120],
+        ["line", 85, 120, 100, 110],
+      );
+
+      if (orientation === Orientation.DOWN) {
+        person.push(
+          ["fill", 0],
+          ["circle", 55, 55, 2],
+          ["circle", 65, 55, 2],
+          ["noFill"],
+          ["strokeWeight", 1],
+          ["line", 50, 65, 70, 65],
+        );
+      }
+
+      return person;
+    }
+
+    if (orientation === Orientation.LEFT) {
+      person.push(
+        ["noFill"],
+        ["stroke", 30, 30, 30],
+        ["circle", 60, 40, 40],
+        // Torso
+        ["line", 60, 60, 60, 120],
+        //Legs
+        ["line", 60, 120, 40, 135],
+        ["line", 40, 135, 46, 150],
+        ["line", 60, 120, 72, 145],
+        ["line", 72, 145, 84, 170],
+        // Arms
+        ["line", 60, 80, 40, 75],
+        ["line", 40, 75, 36, 53],
+        ["line", 60, 80, 66, 100],
+        ["line", 66, 100, 74, 120],
+        ["circle", 50, 35, 2],
+        ["line", 40, 45, 50, 50],
+        ["stroke", colors.lightGray],
+
+        ["line", 80, 65, 90, 85],
+        ["line", 30, 80, 40, 100],
+        ["line", 45, 160, 55, 180],
+        ["line", 90, 135, 100, 155],
+      );
+    } else {
+      person.push(
+        ["noFill"],
+        ["stroke", 30, 30, 30],
+        ["circle", 60, 40, 40],
+        // Torso
+        ["line", 60, 60, 60, 120],
+
+        ["line", 60, 120, 56, 145],
+        ["line", 56, 145, 46, 170],
+        ["line", 60, 120, 72, 105],
+        ["line", 72, 105, 60, 150],
+
+        ["line", 60, 80, 76, 60],
+        ["line", 76, 60, 88, 30],
+        ["line", 60, 80, 42, 100],
+        ["line", 42, 100, 34, 120],
+        ["circle", 70, 35, 2],
+        ["line", 80, 45, 65, 50],
+        ["stroke", colors.lightGray],
+        ["line", 30, 45, 20, 65],
+        ["line", 30, 75, 20, 95],
+        ["line", 90, 105, 80, 125],
+        ["line", 90, 135, 80, 155],
+      );
+    }
+
+    return person;
+  };
+
+  /**
+   * This will provide an array of instructions that can be used to render
+   * a standing person, depending on his orientation
+   * @param orientation
+   * @returns any[][]
+   */
+  private standingPerson = (orientation: Orientation): any[] => {
+    const person: any[] = [];
+
     if (orientation === Orientation.UP || orientation === Orientation.DOWN) {
       person.push(
         ["noFill"],
@@ -130,31 +384,37 @@ export class PieceOfPaper extends Sprite {
         ["arc", 80, 45, 20, this.p5.PI - 1, this.p5.PI - 0.2],
       );
     }
-    return person;
-  }
 
-  public draw() {
-    const radians = this.angleBetweenPoints(this.p5.mouseX, this.p5.mouseY);
-    // Let's compute the orientation
-    if (radians > 0 && radians < 0.96) {
-      this.setOrientation(Orientation.RIGHT);
-    } else if (radians >= 0.96 && radians <= 1.76) {
-      this.setOrientation(Orientation.DOWN);
-    } else if (radians > 1.76 || radians < -2.23) {
-      this.setOrientation(Orientation.LEFT);
-    } else {
-      this.setOrientation(Orientation.UP);
+    return person;
+  };
+
+  /**
+   * This will call the appropriate methods to return array of instructions
+   * that can be used to render a person, depending on his orientation and action
+   * @param orientation
+   * @param action
+   * @returns any[][]
+   */
+  private person(orientation: Orientation, action: Action): any[] {
+    if (action === Action.JUMPING) {
+      return this.jumpingPerson(orientation);
     }
 
-    const [orientation] = [this.currentOrientation];
+    return this.standingPerson(orientation);
+  }
 
-    this.processArray([
+  /**
+   * This will return an array of instructions that can be used to render a piece of paper
+   * with lines and a shadow
+   */
+  private paper = () => {
+    return [
       ["fill", 0, 0, 0, 80],
       ["noStroke"],
-      ...this.jaggyShape(0),
+      ...this.jaggedShape(0),
       ["fill", 255],
       ["noStroke"],
-      ...this.jaggyShape(4),
+      ...this.jaggedShape(4),
 
       ["strokeWeight", 2],
       ["stroke", 80, 140, 250, 40],
@@ -169,7 +429,58 @@ export class PieceOfPaper extends Sprite {
       ["line", 22, 140, 104, 148],
       ["line", 18, 160, 104, 168],
       ["line", 8, 180, 104, 188],
-      ...this.person(orientation),
-    ]);
+      ["strokeWeight", 1],
+    ];
+  };
+
+  /**
+   * This function is used to build the lookup table that we will use during the
+   * draw cycle to render the model, one piece at a time.
+   * @param orientation
+   * @param action
+   */
+  private assembleModel = (orientation: Orientation, action: Action) => {
+    switch (action) {
+      case Action.STANDING:
+        return [...this.paper(), ...this.person(orientation, action)];
+      default:
+        return [...this.paper()];
+      case Action.JUMPING:
+        return [...this.paper(), ...this.person(orientation, action)];
+    }
+  };
+
+  /**
+   * This is the draw method for the piece of paper. It will render the model
+   * with the correct orientation and action
+   * @param hardOrientation If set to true, we will take the orientation set
+   * in the class. If false, we will calculate the correct orientation
+   * based on the mouse position
+   */
+  public draw(hardOrientation: boolean = false) {
+    // Do I calculate the orientation based on the mouse position?
+    if (!hardOrientation) {
+      // Get me some radians
+      const radians = this.angleBetweenPoints(this.p5.mouseX, this.p5.mouseY);
+      // Let's compute the orientation. Since the anchoring of the sprite isn't dead in
+      // the middle, we need to alter our radian thresholds just a bit.
+      if (radians > 0 && radians < 0.96) {
+        this.setOrientation(Orientation.RIGHT);
+      } else if (radians >= 0.96 && radians <= 1.76) {
+        this.setOrientation(Orientation.DOWN);
+      } else if (radians > 1.76 || radians < -2.23) {
+        this.setOrientation(Orientation.LEFT);
+      } else {
+        this.setOrientation(Orientation.UP);
+      }
+    }
+
+    // Get the model data
+    const modelData =
+      this.modelData.models[this.currentAction].data[this.currentOrientation]
+        .data;
+
+    // Send it to the base class for processing
+    this.processArray(modelData);
   }
 }

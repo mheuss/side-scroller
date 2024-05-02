@@ -1,11 +1,18 @@
 import { P5CanvasInstance } from "@p5-wrapper/react";
 
 export class Sprite {
-  x: number;
-  y: number;
-  p5: P5CanvasInstance;
-  scale: number;
+  protected x: number;
+  protected y: number;
+  protected p5: P5CanvasInstance;
+  protected scale: number;
 
+  /**
+   * Constructor for the Sprite class
+   * @param p5 A reference to the p5 base class
+   * @param x The x coordinate of the sprite
+   * @param y The y coordinate of the sprite
+   * @param scale The scale of the sprite
+   */
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number = 1) {
     this.x = x;
     this.y = y;
@@ -15,7 +22,7 @@ export class Sprite {
   }
 
   /**
-   * Stubbed in - later I expect to use this to animate motion in the sprite
+   * Moves the sprint in the x and y direction
    * @param x X coord
    * @param y Y coord
    */
@@ -25,7 +32,8 @@ export class Sprite {
   };
 
   /**
-   * Stubbed in - I expect I'll be using this later to set the position
+   * Sets the position absolutely on the board
+   *
    * @param x X coord
    * @param y Y coord
    */
@@ -34,13 +42,31 @@ export class Sprite {
     this.y = y;
   };
 
+  /**
+   * When given an array of p5 commands, we will process them in order, applying
+   * scale and offsets as needed.
+   *
+   * @param graphicData Array of p5 commands
+   */
   protected processArray = (graphicData: any[][]) => {
+    // For now, let's do a forEach loop to process the array
     graphicData.forEach((shape: any[]) => {
-      // This should be done more elegantly, but we gotta start somewhere
-
+      // This can be done better. But for now, let's just get it working
       const { x, y, scale } = this;
       const [command, ...args] = shape;
+
+      // Switch on the command, find the transformation, and apply it
       switch (command) {
+        // Sanity
+        default: {
+          alert(
+            "Hey Mike! You forgot to implement " +
+              command +
+              " in the Sprite class!",
+          );
+        }
+
+        // Arc
         case "arc": {
           const [x1, y1, d, start, stop] = args;
           this.p5.arc(
@@ -53,16 +79,80 @@ export class Sprite {
           );
           break;
         }
+
+        // Begin Shape
+        case "beginShape":
+          this.p5.beginShape();
+          break;
+
+        // Background
+        case "background": {
+          const [r, g, b] = args;
+          this.p5.background(r, g, b);
+          break;
+        }
+
+        // Circle
         case "circle": {
           const [x1, y1, d] = args;
           this.p5.circle(x + scale * x1, y + scale * y1, scale * d);
           break;
         }
+
+        // CurveVertex
         case "curveVertex": {
           const [x1, y1] = args;
           this.p5.curveVertex(x + scale * x1, y + scale * y1);
           break;
         }
+
+        // Ellipse
+        case "ellipse": {
+          const [x1, y1, w, h] = args;
+          this.p5.ellipse(x + scale * x1, y + scale * y1, scale * w, scale * h);
+          break;
+        }
+
+        // End Shape
+        case "endShape":
+          this.p5.endShape(...args);
+          break;
+
+        // Fill
+        case "fill":
+          this.p5.fill(...args);
+          break;
+
+        // Line
+        case "line": {
+          const [x1, y1, x2, y2] = args;
+          this.p5.line(
+            x + scale * x1,
+            y + scale * y1,
+            x + scale * x2,
+            y + scale * y2,
+          );
+          break;
+        }
+
+        // No Fill
+        case "noFill":
+          this.p5.noFill(0);
+          break;
+
+        // No Stroke
+        case "noStroke":
+          this.p5.noStroke();
+          break;
+
+        // Point
+        case "point": {
+          const [x1, y1] = args;
+          this.p5.point(x + scale * x1, y + scale * y1);
+          break;
+        }
+
+        // Quad
         case "quad": {
           const [x1, y1, x2, y2, x3, y3, x4, y4] = args;
           this.p5.quad(
@@ -77,62 +167,25 @@ export class Sprite {
           );
           break;
         }
-        case "line": {
-          const [x1, y1, x2, y2] = args;
-          this.p5.line(
-            x + scale * x1,
-            y + scale * y1,
-            x + scale * x2,
-            y + scale * y2,
-          );
-          break;
-        }
+
+        // Rect
         case "rect": {
           const [x1, y1, w, h] = args;
           this.p5.rect(x + scale * x1, y + scale * y1, scale * w, scale * h);
           break;
         }
-        case "ellipse": {
-          const [x1, y1, w, h] = args;
-          this.p5.ellipse(x + scale * x1, y + scale * y1, scale * w, scale * h);
-          break;
-        }
-        case "point": {
-          const [x1, y1] = args;
-          this.p5.point(x + scale * x1, y + scale * y1);
-          break;
-        }
-        case "beginShape":
-          this.p5.beginShape();
-          break;
-        case "endShape":
-          this.p5.endShape(...args);
-          break;
-        case "vertex": {
-          const [x1, y1] = args;
-          this.p5.vertex(x + scale * x1, y + scale * y1);
-          break;
-        }
-        case "background": {
-          const [r, g, b] = args;
-          this.p5.background(r, g, b);
-          break;
-        }
-        case "fill":
-          this.p5.fill(...args);
-          break;
+
+        // Stroke
         case "stroke":
           this.p5.stroke(...args);
           break;
+
+        // Stroke Weight
         case "strokeWeight":
           this.p5.strokeWeight(...args);
           break;
-        case "noFill":
-          this.p5.noFill(0);
-          break;
-        case "noStroke":
-          this.p5.noStroke();
-          break;
+
+        //  Triangle
         case "triangle": {
           const [x1, y1, x2, y2, x3, y3] = args;
           this.p5.triangle(
@@ -145,12 +198,20 @@ export class Sprite {
           );
           break;
         }
+
+        // Vertex
+        case "vertex": {
+          const [x1, y1] = args;
+          this.p5.vertex(x + scale * x1, y + scale * y1);
+          break;
+        }
       }
     });
   };
 
   /**
-   * Stubbed in draw command
+   * Stubbed in draw command. This method is here because I want to catch any
+   * classes that don't implement their own draw method.
    */
   draw() {
     const { fill, stroke, strokeWeight, text } = this.p5;

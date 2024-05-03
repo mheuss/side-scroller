@@ -1,0 +1,28 @@
+Character Animator
+
+Character is defined by a series of points that are connected by lines.
+The points are called vertices, and they are connected to two lines
+
+A user can click on a vertice and drag it to the new location.
+The lines connected to the vertice will move with it. We will calculate the
+rise and run of the line connected to the vertice and move the other vertices.
+
+If there are additional lines connected to those vertices, we will move them as well.
+
+The line's lengths will not change, but the angle of the line will change.
+
+The user can click on a button entitled new frame - and the current frame will be copied to
+the next, the heading above the line will change, and the user can then manipulate these
+vertices below.
+
+The user can click on a button entitled previous frame - and can make changes to that frame.
+That change will take place for that frame and all further frames.
+
+There will be a box drawing of all those frames at the bottom with a back and next arrow.
+The user can click on those arrows and see earlier and later changes.
+
+Additionally, there will be a box that will show the current animation cycling through
+the frames on an infinite loop.
+
+When the user clicks done, all the frames will be output as line commands stored in
+an array inside a text area. The user can then copy and paste that text wherever.

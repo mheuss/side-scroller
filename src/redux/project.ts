@@ -11,11 +11,14 @@ export const projectSlice = createSlice({
   },
   reducers: {
     changeProject: (state: any, action: IProjectAction) => {
-      alert("Reducer - Project changed to " + action.payload);
       return { ...state, value: action.payload };
     },
   },
 });
+
+export function selectProject(state: any) {
+  return state.project.value;
+}
 
 export const { changeProject } = projectSlice.actions;
 export default projectSlice.reducer;

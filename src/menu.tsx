@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "src/redux/global-state";
 import * as React from "react";
+import { changeProject } from "./redux/project";
 
 export function Menu() {
   const project = useSelector((state: IState) => state.project);
   const dispatch = useDispatch();
 
   const handleClick = (project: string) => {
-    dispatch({ type: "changeProject", payload: project });
-    alert("Project changed to " + project);
+    dispatch(changeProject(project));
   };
 
   return (

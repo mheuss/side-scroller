@@ -1,10 +1,18 @@
 import { P5CanvasInstance } from "@p5-wrapper/react";
 
+export interface IBounds {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
 export class Sprite {
-  protected x: number;
-  protected y: number;
+  private x: number;
+  private y: number;
   protected p5: P5CanvasInstance;
   protected scale: number;
+  private bounds: IBounds | null;
 
   /**
    * Constructor for the Sprite class
@@ -12,14 +20,42 @@ export class Sprite {
    * @param x The x coordinate of the sprite
    * @param y The y coordinate of the sprite
    * @param scale The scale of the sprite
+   * @param bounds The bounds of the sprite. This is used for collision detection
    */
-  constructor(p5: P5CanvasInstance, x: number, y: number, scale: number = 1) {
+  constructor(
+    p5: P5CanvasInstance,
+    x: number,
+    y: number,
+    scale: number,
+    bounds: IBounds | null = null,
+  ) {
     this.x = x;
     this.y = y;
     this.p5 = p5;
     this.scale = scale;
-    console.log(this);
+    this.bounds = bounds;
   }
+
+  /**
+   * Getters
+   */
+  public getX = () => this.x;
+  public getBottomY = () => {
+    // No bounding box. Just return the y
+    if (!this.bounds) {
+      return this.y;
+    }
+
+    // Do we have an offset for x or y?
+    const scaledHeight =
+      this.bounds.h * this.scale + this.bounds.y * this.scale;
+    return this.y + scaledHeight;
+  };
+
+  /**
+   * Getters
+   */
+  public getY = () => this.y;
 
   /**
    * Moves the sprint in the x and y direction

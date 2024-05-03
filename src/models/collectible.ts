@@ -4,7 +4,7 @@ import { colors } from "src/constants";
 
 export class Collectible extends Sprite {
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
-    super(p5, x, y, scale ?? 1);
+    super(p5, x, y, scale ?? 1, { x: 0, y: 0, h: 150, w: 75 });
   }
 
   public draw() {

@@ -8,6 +8,7 @@ import { Canyon } from "src/models/canyon";
 import { Collectible } from "src/models/collectible";
 import { Tree } from "src/models/tree";
 import { Menu } from "src/menu";
+import { Sprite } from "src/models/sprite";
 
 function sketch(p5: P5CanvasInstance) {
   const pieceOfPaper = new PieceOfPaper(p5, 520, 420, 0.5);
@@ -21,6 +22,7 @@ function sketch(p5: P5CanvasInstance) {
     new Tree(p5, 850, 350, 1),
     new Tree(p5, 100, 250, 1),
   ];
+
   p5.setup = () => {
     p5.createCanvas(1024, 576);
   };
@@ -45,12 +47,21 @@ function sketch(p5: P5CanvasInstance) {
     cloud.drift();
 
     // Render
-    mountain.draw();
-    cloud.draw();
-    trees.forEach((tree) => tree.draw());
-    canyon.draw();
-    collectible.draw();
-    pieceOfPaper.draw();
+    mountain.draw(); //Always rendered here
+    cloud.draw(); // Always rendered here
+    canyon.draw(); // Always rendered here
+
+    // Let's get the trees, collectible, and piece of paper to render in a specific order
+    const orderedRenders = [...trees, collectible, pieceOfPaper].sort(
+      (a: Sprite, b: Sprite) => {
+        return a.getBottomY() - b.getBottomY();
+      },
+    );
+
+    orderedRenders.forEach((model: Sprite) => {
+      console.log("Type ", model.constructor.name, "Y ", model.getBottomY());
+      model.draw();
+    });
   };
 }
 

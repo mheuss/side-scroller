@@ -9,9 +9,11 @@ export class Cloud extends Sprite {
 
   drift = () => {
     this.move(-0.4, 0);
+    const x = this.getX();
+    const y = this.getY();
 
-    if (this.x < -200 - this.scale * 100) {
-      this.setPosition(this.scale * 100 + 1024, this.y);
+    if (x < -200 - this.scale * 100) {
+      this.setPosition(this.scale * 100 + 1024, y);
     }
   };
 
@@ -19,7 +21,6 @@ export class Cloud extends Sprite {
    * Draws the cloud
    */
   draw = () => {
-    const { x, y } = this;
     this.processArray([
       ["stroke", ...colors.cloudBorder],
       ["strokeWeight", 3],

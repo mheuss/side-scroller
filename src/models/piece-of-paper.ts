@@ -1,5 +1,5 @@
 import { P5CanvasInstance } from "@p5-wrapper/react";
-import { Sprite } from "src/models/sprite";
+import { IBounds, Sprite } from "src/models/sprite";
 import { colors } from "src/constants";
 
 /**
@@ -79,7 +79,13 @@ export class PieceOfPaper extends Sprite {
    * smaller.
    */
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
-    super(p5, x, y, scale ?? 1);
+    const bounds: IBounds = {
+      x: 0,
+      y: 0,
+      w: 100,
+      h: 200,
+    };
+    super(p5, x, y, scale ?? 1, bounds);
     this.currentOrientation = Orientation.DOWN;
     this.currentAction = Action.STANDING;
     this.modelData = this.buildModels();
@@ -205,7 +211,8 @@ export class PieceOfPaper extends Sprite {
    * @param y2
    */
   angleBetweenPoints = (x2: number, y2: number) => {
-    const { x, y } = this;
+    const x = this.getX();
+    const y = this.getY();
     const deltaX = x2 - x;
     const deltaY = y2 - y;
     return Math.atan2(deltaY, deltaX);

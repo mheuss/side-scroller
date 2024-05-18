@@ -13,6 +13,7 @@ export function Menu() {
   const dispatch = useDispatch();
 
   const projectInventory: IMenuItems[] = [
+    { project: "animator", title: "Animator" },
     {
       project: "TwoA",
       title: "Project 2A",
@@ -21,6 +22,7 @@ export function Menu() {
       project: "TwoB",
       title: "Project 2B",
     },
+    { project: "ThreeA", title: "Project 3A" },
   ];
 
   const handleClick = (project: string) => {

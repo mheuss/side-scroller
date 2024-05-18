@@ -1,6 +1,6 @@
 import * as React from "react";
 import { P5CanvasInstance, ReactP5Wrapper } from "@p5-wrapper/react";
-import { ControlledBy, PieceOfPaper } from "src/models/piece-of-paper";
+import { Orientation, PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
 import { Mountain } from "src/models/mountain";
 import { Cloud } from "src/models/cloud";
@@ -12,7 +12,6 @@ import { Sprite } from "src/models/sprite";
 
 function sketch(p5: P5CanvasInstance) {
   const pieceOfPaper = new PieceOfPaper(p5, 520, 420, 0.5);
-  pieceOfPaper.setControlledBy(ControlledBy.MOUSE);
   const mountain = new Mountain(p5, 465, 150, 6);
   const cloud = new Cloud(p5, 100, 100, 0.75);
   const canyon = new Canyon(p5, 300, 432, 1);
@@ -32,41 +31,56 @@ function sketch(p5: P5CanvasInstance) {
     pieceOfPaper.setPosition(p5.mouseX, p5.mouseY);
   };
 
+  p5.keyPressed = () => {
+    pieceOfPaper.handleKeyPress();
+  };
+
+  p5.keyReleased = () => {
+    pieceOfPaper.handleKeyRelease();
+  };
+
   p5.draw = () => {
+    // Let's check for input
+    // pieceOfPaper.checkKeyboardInput();
+    pieceOfPaper.handleMovementAndOrientation();
+
     p5.background(colors.blueSky);
     p5.smooth();
     p5.noStroke();
 
     // Ground
     p5.fill(colors.grassGreen);
-    p5.rect(0, 432, 1024, 144); //draw some green ground
+    p5.rect(0, 432, 1024, 144);
     p5.stroke(0);
     p5.strokeWeight(1);
-    p5.line(0, 432, 1024, 432); //draw a horizon line
+    p5.line(0, 432, 1024, 432);
 
     // Actions
     cloud.drift();
 
     // Render
-    mountain.draw(); //Always rendered here
-    cloud.draw(); // Always rendered here
-    canyon.draw(); // Always rendered here
+    mountain.draw();
+    cloud.draw();
+    canyon.draw();
 
     // Let's get the trees, collectible, and piece of paper to render in a specific order
     const orderedRenders = [...trees, collectible, pieceOfPaper].sort(
       (a: Sprite, b: Sprite) => {
-        return a.getBottomY() - b.getBottomY();
+        let firstY =
+          a instanceof PieceOfPaper ? a.getCalculatedY() : a.getBottomY();
+        let secondY =
+          b instanceof PieceOfPaper ? b.getCalculatedY() : b.getBottomY();
+        return firstY - secondY;
       },
     );
 
     orderedRenders.forEach((model: Sprite) => {
-      console.log("Type ", model.constructor.name, "Y ", model.getBottomY());
       model.draw();
     });
   };
 }
 
-export const TwoB = () => (
+export const ThreeA = () => (
   <>
     <div className="flex h-16 justify-between">
       <div className="flex bg-white">

@@ -35,7 +35,7 @@ function sketch(p5: P5CanvasInstance) {
     p5.fill(0);
     p5.strokeWeight(0);
     p5.text("1. standing front facing", 20, 160);
-    facingForward.draw(true);
+    facingForward.draw();
 
     p5.stroke(100);
     p5.fill(200, 200, 200);
@@ -44,7 +44,7 @@ function sketch(p5: P5CanvasInstance) {
     p5.fill(0);
     p5.text("2. jumping facing forwards", 220, 160);
 
-    jumpingForward.draw(true);
+    jumpingForward.draw();
 
     p5.stroke(100);
     p5.fill(200, 200, 200);
@@ -53,7 +53,7 @@ function sketch(p5: P5CanvasInstance) {
     p5.fill(0);
     p5.text("3. Walking left", 20, 360);
 
-    walkingLeft.draw(true);
+    walkingLeft.draw();
 
     p5.stroke(100);
     p5.fill(200, 200, 200);
@@ -61,7 +61,7 @@ function sketch(p5: P5CanvasInstance) {
     p5.noStroke();
     p5.fill(0);
     p5.text("4. Walking right", 220, 360);
-    walkingRight.draw(true);
+    walkingRight.draw();
 
     p5.stroke(100);
     p5.fill(200, 200, 200);
@@ -69,7 +69,7 @@ function sketch(p5: P5CanvasInstance) {
     p5.noStroke();
     p5.fill(0);
     p5.text("5. Jumping to the right", 20, 560);
-    jumpingRight.draw(true);
+    jumpingRight.draw();
 
     p5.stroke(100);
     p5.fill(200, 200, 200);
@@ -77,7 +77,7 @@ function sketch(p5: P5CanvasInstance) {
     p5.noStroke();
     p5.fill(0);
     p5.text("6. Jumping to the left", 220, 560);
-    jumpingLeft.draw(true);
+    jumpingLeft.draw();
   };
 }
 

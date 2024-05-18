@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { TwoB } from "src/projects/TwoB";
 import { selectProject } from "src/redux/project";
 import { JSX } from "react";
+import { Animator } from "src/projects/Animator";
+import { ThreeA } from "src/projects/ThreeA";
 
 export const App = () => {
   const project = useSelector(selectProject);
@@ -16,6 +18,10 @@ export const App = () => {
     childComponent = <TwoA />;
   } else if (project === "TwoB") {
     childComponent = <TwoB />;
+  } else if (project === "animator") {
+    childComponent = <Animator />;
+  } else if (project === "ThreeA") {
+    childComponent = <ThreeA />;
   }
 
   return (

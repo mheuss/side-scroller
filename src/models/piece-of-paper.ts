@@ -58,6 +58,14 @@ export enum Action {
   WALKING = 2,
 }
 
+export enum ControlledBy {
+  KEYBOARD = 0,
+  MOUSE = 1,
+}
+
+const JUMP_INCREMENT = 10;
+const MAX_JUMP_HEIGHT = 250;
+
 /**
  * Here is our class. It extends Sprite class, which is a class that is used to
  * render objects on the screen.
@@ -69,6 +77,17 @@ export class PieceOfPaper extends Sprite {
   private currentOrientation: Orientation;
   private currentAction: Action;
   private modelData: IPieceOfPaperData;
+  private controlledBy: ControlledBy = ControlledBy.KEYBOARD;
+
+  // Added variables for 3a
+  private isJumping: boolean = false;
+  private isFalling: boolean = false;
+  private isLeft: boolean = false;
+  private isRight: boolean = false;
+  private isUp: boolean = false; // Added because I want to support up and down
+  private isDown: boolean = false;
+  private jumpHeight: number = 0; // Keeps track of, well, jump height
+  private isRunning: boolean = false;
 
   /**
    * The constructor for the class. It sets the orientation and action of the model
@@ -89,7 +108,12 @@ export class PieceOfPaper extends Sprite {
     this.currentOrientation = Orientation.DOWN;
     this.currentAction = Action.STANDING;
     this.modelData = this.buildModels();
+    this.controlledBy = ControlledBy.KEYBOARD;
   }
+
+  public setControlledBy = (controlledBy: ControlledBy) => {
+    this.controlledBy = controlledBy;
+  };
 
   /**
    * Actually goes and gets all permutations of a model
@@ -162,6 +186,23 @@ export class PieceOfPaper extends Sprite {
   public setAction(action: Action) {
     this.currentAction = action;
   }
+
+  /**
+   * For draw priority, we need to adjust for jumping and falling
+   */
+  public getCalculatedY = () => {
+    if (this.isJumping) {
+      console.log("Jumping: ", this.getBottomY() + this.jumpHeight);
+      return this.getBottomY() + this.jumpHeight;
+    }
+
+    if (this.isFalling) {
+      console.log("Falling: ", this.getBottomY() + this.jumpHeight);
+      return this.getBottomY() + this.jumpHeight;
+    }
+
+    return this.getBottomY();
+  };
 
   /**
    * This returns an array that represents the shape of a jagged rip of notebook paper
@@ -457,16 +498,139 @@ export class PieceOfPaper extends Sprite {
     }
   };
 
+  public handleKeyPress = () => {
+    // Let's not do anything if we are jumping or falling
+    if (this.isJumping || this.isFalling) {
+      return;
+    }
+
+    const keyCode = this.p5.keyCode;
+
+    if (keyCode === this.p5.LEFT_ARROW) {
+      this.isLeft = true;
+      this.isRight = false;
+    } else if (keyCode === this.p5.RIGHT_ARROW) {
+      this.isRight = true;
+      this.isLeft = false;
+    } else if (keyCode === this.p5.UP_ARROW) {
+      this.isUp = true;
+      this.isDown = false;
+    } else if (keyCode === this.p5.DOWN_ARROW) {
+      this.isDown = true;
+      this.isUp = false;
+    } else if (keyCode === 16) {
+      this.isRunning = true;
+    } else if (keyCode === 32 && !this.isJumping && !this.isFalling) {
+      this.isJumping = true;
+      this.jumpHeight = 0;
+    } else {
+      console.log("Unhandled: ", keyCode);
+    }
+  };
+
+  public handleKeyRelease = () => {
+    const keyCode = this.p5.keyCode;
+
+    // This should be a switch statement, but the criteria is asking
+    // for if statements, so here we go.
+    if (keyCode === this.p5.LEFT_ARROW) {
+      this.isLeft = false;
+    } else if (keyCode === this.p5.RIGHT_ARROW) {
+      this.isRight = false;
+    } else if (keyCode === this.p5.UP_ARROW) {
+      this.isUp = false;
+    } else if (keyCode === this.p5.DOWN_ARROW) {
+      this.isDown = false;
+    } else if (keyCode === 16) {
+      this.isRunning = false;
+    } else if (keyCode === 32) {
+      this.isJumping = false;
+      this.isFalling = true;
+    }
+  };
+
+  public isJumpingOrFalling = () => {
+    let y = 0;
+
+    if (!this.isJumping && !this.isFalling) {
+      return 0;
+    }
+
+    if (this.isJumping) {
+      // const jump increment
+      this.jumpHeight += JUMP_INCREMENT;
+
+      // Let's max our jump height
+      if (this.jumpHeight > MAX_JUMP_HEIGHT) {
+        this.isJumping = false;
+        this.isFalling = true;
+      }
+
+      y -= JUMP_INCREMENT;
+    } // Take care of falling
+    else if (this.isFalling) {
+      this.jumpHeight -= JUMP_INCREMENT;
+      if (this.jumpHeight <= 0) {
+        this.jumpHeight = 0;
+        this.isFalling = false;
+      }
+      y += JUMP_INCREMENT;
+    }
+
+    return y;
+  };
+
+  public handleMovementAndOrientation = () => {
+    // Get x ready to go
+    let x = 0;
+
+    // Calculate our prospective speed
+    let movement_increment = this.isRunning ? 2.5 : 1;
+
+    // Now initialize y and get any vector from jumping
+    let y = this.isJumpingOrFalling();
+
+    if (
+      (this.isUp && (this.isLeft || this.isRight)) ||
+      (this.isDown && (this.isLeft || this.isRight))
+    ) {
+      movement_increment /= 2;
+    }
+
+    if (this.isLeft) {
+      x -= movement_increment;
+      this.setOrientation(Orientation.LEFT);
+    } else if (this.isRight) {
+      x += movement_increment;
+      this.setOrientation(Orientation.RIGHT);
+    }
+
+    if (y === 0) {
+      if (this.isUp) {
+        y -= movement_increment;
+        this.setOrientation(Orientation.UP);
+      } else if (this.isDown) {
+        y += movement_increment;
+        this.setOrientation(Orientation.DOWN);
+      }
+    }
+
+    if (this.isJumping || this.isFalling) {
+      this.setAction(Action.JUMPING);
+    } else {
+      this.setAction(Action.STANDING);
+    }
+
+    this.move(x, y);
+  };
+
   /**
    * This is the draw method for the piece of paper. It will render the model
    * with the correct orientation and action
-   * @param hardOrientation If set to true, we will take the orientation set
-   * in the class. If false, we will calculate the correct orientation
-   * based on the mouse position
    */
-  public draw(hardOrientation: boolean = false) {
+  public draw() {
     // Do I calculate the orientation based on the mouse position?
-    if (!hardOrientation) {
+    if (ControlledBy.MOUSE === this.controlledBy) {
       // Get me some radians
       const radians = this.angleBetweenPoints(this.p5.mouseX, this.p5.mouseY);
       // Let's compute the orientation. Since the anchoring of the sprite isn't dead in

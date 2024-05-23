@@ -1,6 +1,6 @@
 import * as React from "react";
 import { P5CanvasInstance, ReactP5Wrapper } from "@p5-wrapper/react";
-import { Orientation, PieceOfPaper } from "src/models/piece-of-paper";
+import { PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
 import { Mountain } from "src/models/mountain";
 import { Cloud } from "src/models/cloud";
@@ -73,6 +73,8 @@ function sketch(p5: P5CanvasInstance) {
       },
     );
 
+    // Render them in order, so objects further away than the character are rendered
+    // behind him
     orderedRenders.forEach((model: Sprite) => {
       model.draw();
     });

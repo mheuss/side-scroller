@@ -58,6 +58,18 @@ export class Sprite {
   public getX = () => this.x;
 
   /**
+   * Gets the x coordinate halfway through the sprite
+   */
+  public getCenterX = () => {
+    if (!this.bounds) {
+      return this.x;
+    }
+
+    const scaledWidth = this.bounds.w * this.scale + this.bounds.x * this.scale;
+    return this.x + scaledWidth / 2;
+  };
+
+  /**
    * Returns the rightmost x
    */
   public getRightmostX = () => {

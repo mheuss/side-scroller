@@ -12,9 +12,6 @@ export class Collectible extends Sprite {
   public checkGather(character_x: number, character_y: number) {
     if (this.collisionCheck(character_x, character_y)) {
       this.isFound = true;
-      console.log("Found the collectible!");
-    } else {
-      console.log("Not found yet");
     }
   }
 

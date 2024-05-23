@@ -57,6 +57,7 @@ export enum Action {
   STANDING = 0,
   JUMPING = 1,
   WALKING = 2,
+  PLUMMETING = 3,
 }
 
 export enum ControlledBy {
@@ -89,6 +90,7 @@ export class PieceOfPaper extends Sprite {
   private isDown: boolean = false;
   private jumpHeight: number = 0; // Keeps track of, well, jump height
   private isRunning: boolean = false;
+  private isPlummeting: boolean = false;
 
   /**
    * The constructor for the class. It sets the orientation and action of the model
@@ -501,7 +503,7 @@ export class PieceOfPaper extends Sprite {
 
   public handleKeyPress = () => {
     // Let's not do anything if we are jumping or falling
-    if (this.isJumping || this.isFalling) {
+    if (this.isJumping || this.isFalling || this.isPlummeting) {
       return;
     }
 
@@ -531,6 +533,10 @@ export class PieceOfPaper extends Sprite {
 
   public handleKeyRelease = () => {
     const keyCode = this.p5.keyCode;
+
+    if (this.isPlummeting) {
+      return;
+    }
 
     // This should be a switch statement, but the criteria is asking
     // for if statements, so here we go.
@@ -591,6 +597,12 @@ export class PieceOfPaper extends Sprite {
     // Now initialize y and get any vector from jumping
     let y = this.isJumpingOrFalling();
 
+    // If we are plummeting - do it and fast
+    if (this.isPlummeting) {
+      x = 0;
+      y += movement_increment * 7;
+    }
+
     if (
       (this.isUp && (this.isLeft || this.isRight)) ||
       (this.isDown && (this.isLeft || this.isRight))
@@ -626,9 +638,42 @@ export class PieceOfPaper extends Sprite {
   };
 
   public checkForInteraction(objects: Sprite[]) {
+    // If we are jumping, this stuff doesn't count
+    if (this.isJumping || this.isFalling) {
+      return;
+    }
+
+    // NOw, let's check for interactions
     objects.forEach((object) => {
-      if (object instanceof Collectible) {
-        object.checkGather(this.getX(), this.getBottomY());
+      switch (object.constructor.name) {
+        default:
+        case "Canyon": {
+          // Do nothing if not handled
+          break;
+        }
+        case "Collectible": {
+          (object as Collectible).checkGather(this.getX(), this.getBottomY());
+          break;
+        }
+      }
+
+      // If we are directly over sky, we've messed up somehow. Maybe canyon,
+      // maybe something more devious. Let's plummet
+
+      // Get the color of the bottom middle of our piece of paper
+      const hoveringColor = this.p5.get(this.getCenterX(), this.getBottomY());
+      // Check to be sure that the arrays called colors.blueSky and hoveringColor have the same entries in the same order
+
+      if (
+        colors.blueSky.every(
+          (value: number, index: number) => value === hoveringColor[index],
+        )
+      ) {
+        this.isPlummeting = true;
+        this.isDown = true;
+        this.isLeft = false;
+        this.isUp = false;
+        this.isRight = false;
       }
     });
   }

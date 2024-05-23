@@ -1,5 +1,5 @@
 export const colors = {
-  blueSky: [207, 240, 243],
+  blueSky: [207, 240, 243, 255],
   grassGreen: [0, 155, 0],
   stoneGray: [150, 150, 150],
   lightGray: [200, 200, 200],

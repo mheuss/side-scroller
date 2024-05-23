@@ -1,7 +1,7 @@
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { IBounds, Sprite } from "src/models/sprite";
 import { colors } from "src/constants";
-import { Collectible } from "src/models/collectible";
+import { Collectable } from "src/models/collectable";
 
 /**
  * Note:
@@ -195,12 +195,10 @@ export class PieceOfPaper extends Sprite {
    */
   public getCalculatedY = () => {
     if (this.isJumping) {
-      console.log("Jumping: ", this.getBottomY() + this.jumpHeight);
       return this.getBottomY() + this.jumpHeight;
     }
 
     if (this.isFalling) {
-      console.log("Falling: ", this.getBottomY() + this.jumpHeight);
       return this.getBottomY() + this.jumpHeight;
     }
 
@@ -637,9 +635,15 @@ export class PieceOfPaper extends Sprite {
     this.move(x, y);
   };
 
+  /**
+   * Let's take in an argument of all objects that can be interacted with
+   * and loop through them. If we are touching one, we'll do something
+   * @param objects An array of objects that can be interacted with
+   */
+
   public checkForInteraction(objects: Sprite[]) {
     // If we are jumping, this stuff doesn't count
-    if (this.isJumping || this.isFalling) {
+    if (this.isJumping || this.isFalling || this.isPlummeting) {
       return;
     }
 
@@ -648,11 +652,12 @@ export class PieceOfPaper extends Sprite {
       switch (object.constructor.name) {
         default:
         case "Canyon": {
-          // Do nothing if not handled
+          // By Default, do nothing
+          // Canyons are short-circuited and are happening below
           break;
         }
-        case "Collectible": {
-          (object as Collectible).checkGather(this.getX(), this.getBottomY());
+        case "Collectable": {
+          (object as Collectable).checkGather(this.getX(), this.getBottomY());
           break;
         }
       }
@@ -677,6 +682,7 @@ export class PieceOfPaper extends Sprite {
       }
     });
   }
+
   /**
    * This is the draw method for the piece of paper. It will render the model
    * with the correct orientation and action

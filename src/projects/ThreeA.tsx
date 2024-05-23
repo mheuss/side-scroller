@@ -5,7 +5,7 @@ import { colors } from "src/constants";
 import { Mountain } from "src/models/mountain";
 import { Cloud } from "src/models/cloud";
 import { Canyon } from "src/models/canyon";
-import { Collectible } from "src/models/collectible";
+import { Collectable } from "src/models/collectable";
 import { Tree } from "src/models/tree";
 import { Menu } from "src/menu";
 import { Sprite } from "src/models/sprite";
@@ -15,7 +15,14 @@ function sketch(p5: P5CanvasInstance) {
   const mountain = new Mountain(p5, 465, 150, 6);
   const cloud = new Cloud(p5, 100, 100, 0.75);
   const canyon = new Canyon(p5, 300, 432, 1);
-  const collectible = new Collectible(p5, 800, 400, 1);
+  const collectables = [
+    new Collectable(p5, 800, 400, 1),
+    new Collectable(p5, 700, 350, 1),
+    new Collectable(p5, 600, 420, 1),
+    new Collectable(p5, 200, 400, 1),
+    new Collectable(p5, 400, 400, 1),
+  ];
+  // const collectable = new Collectable(p5, 800, 400, 1);
   const trees = [
     new Tree(p5, 600, 300, 1),
     new Tree(p5, 520, 310, 1),
@@ -37,7 +44,7 @@ function sketch(p5: P5CanvasInstance) {
 
   p5.draw = () => {
     // Let's check for interactions
-    pieceOfPaper.checkForInteraction([collectible]);
+    pieceOfPaper.checkForInteraction(collectables);
 
     // Let's check for input
     // pieceOfPaper.checkKeyboardInput();
@@ -63,7 +70,7 @@ function sketch(p5: P5CanvasInstance) {
     canyon.draw();
 
     // Let's get the trees, collectible, and piece of paper to render in a specific order
-    const orderedRenders = [...trees, collectible, pieceOfPaper].sort(
+    const orderedRenders = [...trees, ...collectables, pieceOfPaper].sort(
       (a: Sprite, b: Sprite) => {
         let firstY =
           a instanceof PieceOfPaper ? a.getCalculatedY() : a.getBottomY();

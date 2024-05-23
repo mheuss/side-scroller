@@ -2,18 +2,18 @@ import { Sprite } from "src/models/sprite";
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
 
-export class Collectible extends Sprite {
+export class Collectable extends Sprite {
   private isFound: boolean = false;
 
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
     super(p5, x, y, scale ?? 1, { x: 0, y: 0, h: 150, w: 75 });
   }
 
-  public checkGather(character_x: number, character_y: number) {
+  public checkGather = (character_x: number, character_y: number) => {
     if (this.collisionCheck(character_x, character_y)) {
       this.isFound = true;
     }
-  }
+  };
 
   public draw() {
     // Don't draw if found

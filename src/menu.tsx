@@ -34,12 +34,9 @@ export function Menu() {
 
   const unSelectedClass = `border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:bg-gray-100 whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium`;
 
-  console.log("project", project);
-
   return (
     <nav className="-mb-px flex space-x-8 ml-8" aria-label="Tabs">
       {projectInventory.map((item: IMenuItems) => {
-        console.log(project, item.project);
         return (
           <a
             href="#"

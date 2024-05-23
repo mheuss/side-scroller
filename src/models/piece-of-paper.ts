@@ -1,6 +1,7 @@
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { IBounds, Sprite } from "src/models/sprite";
 import { colors } from "src/constants";
+import { Collectible } from "src/models/collectible";
 
 /**
  * Note:
@@ -624,6 +625,13 @@ export class PieceOfPaper extends Sprite {
     this.move(x, y);
   };
 
+  public checkForInteraction(objects: Sprite[]) {
+    objects.forEach((object) => {
+      if (object instanceof Collectible) {
+        object.checkGather(this.getX(), this.getBottomY());
+      }
+    });
+  }
   /**
    * This is the draw method for the piece of paper. It will render the model
    * with the correct orientation and action

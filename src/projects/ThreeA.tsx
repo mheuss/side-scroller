@@ -27,10 +27,6 @@ function sketch(p5: P5CanvasInstance) {
     p5.createCanvas(1024, 576);
   };
 
-  p5.mousePressed = () => {
-    pieceOfPaper.setPosition(p5.mouseX, p5.mouseY);
-  };
-
   p5.keyPressed = () => {
     pieceOfPaper.handleKeyPress();
   };
@@ -40,6 +36,9 @@ function sketch(p5: P5CanvasInstance) {
   };
 
   p5.draw = () => {
+    // Let's check for interactions
+    pieceOfPaper.checkForInteraction([collectible]);
+
     // Let's check for input
     // pieceOfPaper.checkKeyboardInput();
     pieceOfPaper.handleMovementAndOrientation();

@@ -37,9 +37,41 @@ export class Sprite {
   }
 
   /**
-   * Getters
+   * When given the characters coordinates, are we colliding?
+   * @param character_x Character's X coord.(leftmost x)
+   * @param character_y Character's Y coord.(bottom most y)
+   */
+  public collisionCheck(character_x: number, character_y: number) {
+    // We can't use the distance function, I don't think - because
+    // we are worried about X and Y within the context of a fake z.
+    // So - old school math it is.
+    return (
+      character_x > this.x && // Left Side
+      character_x < this.getRightmostX() && // Right Side
+      Math.abs(character_y - this.getBottomY()) < 5 // Base of the sprite
+    );
+  }
+
+  /**
+   * Returns the leftmost x
    */
   public getX = () => this.x;
+
+  /**
+   * Returns the rightmost x
+   */
+  public getRightmostX = () => {
+    if (!this.bounds) {
+      return this.x;
+    }
+
+    const scaledWidth = this.bounds.w * this.scale + this.bounds.x * this.scale;
+    return this.x + scaledWidth;
+  };
+
+  /**
+   * Gets the bottom most y coordinate of the sprite
+   */
   public getBottomY = () => {
     // No bounding box. Just return the y
     if (!this.bounds) {
@@ -53,7 +85,7 @@ export class Sprite {
   };
 
   /**
-   * Getters
+   * Returns the topmost y coordinate of the sprite
    */
   public getY = () => this.y;
 

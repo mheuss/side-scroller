@@ -3,21 +3,31 @@ import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
 
 export class Canyon extends Sprite {
-  constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
+  private width; // Width or spread of the chasm
+  constructor(
+    p5: P5CanvasInstance,
+    x: number,
+    y: number,
+    scale: number,
+    width: number = 0,
+  ) {
     super(p5, x, y, scale ?? 1);
+    this.width = width;
   }
 
   public draw() {
     const { blueSky, grassGreen, darkerGray, midGray, stoneGray } = colors;
+    const { width } = this;
 
     this.processArray([
+      // First Spread
       ["stroke", blueSky],
       ["strokeWeight", 1],
       ["noFill"],
-      ["line", 0, 0, 158, 0], //draw a horizon line
+      ["line", 0, 0, 158 + width, 0], //draw a horizon line
       ["noStroke"],
       ["fill", blueSky],
-      ["rect", 2, 0, 158, 200],
+      ["rect", 2, 0, 158 + width, 200],
       ["fill", darkerGray],
       ["noStroke"],
       ["beginShape"],
@@ -47,26 +57,47 @@ export class Canyon extends Sprite {
       ["vertex", 90, 130],
       ["vertex", 15, 200],
       ["endShape", this.p5.CLOSE],
+      ["rect", 0, 0, 11, 200],
+      ["rect", 158 + width, 0, 5, 200],
+      // Second Half
       ["fill", stoneGray],
-      ["quad", 100, 10, 150, 100, 150, 140, 150, 10],
+      [
+        "quad",
+        100 + width,
+        10,
+        150 + width,
+        100,
+        150 + width,
+        140,
+        150 + width,
+        10,
+      ],
       ["fill", midGray],
-      ["quad", 100, 100, 150, 150, 150, 170, 150, 100],
+      [
+        "quad",
+        100 + width,
+        100,
+        150 + width,
+        150,
+        150 + width,
+        170,
+        150 + width,
+        100,
+      ],
       ["fill", grassGreen],
       ["beginShape"],
-      ["vertex", 160, 0],
-      ["curveVertex", 130, 0],
-      ["curveVertex", 100, 10],
-      ["curveVertex", 130, 35],
-      ["curveVertex", 100, 10],
-      ["curveVertex", 130, 35],
-      ["curveVertex", 140, 80],
-      ["curveVertex", 100, 100],
-      ["vertex", 145, 120],
-      ["vertex", 160, 200],
+      ["vertex", 160 + width, 0],
+      ["curveVertex", 130 + width, 0],
+      ["curveVertex", 100 + width, 10],
+      ["curveVertex", 130 + width, 35],
+      ["curveVertex", 100 + width, 10],
+      ["curveVertex", 130 + width, 35],
+      ["curveVertex", 140 + width, 80],
+      ["curveVertex", 100 + width, 100],
+      ["vertex", 145 + width, 120],
+      ["vertex", 160 + width, 200],
       ["endShape", this.p5.CLOSE],
       ["noStroke"],
-      ["rect", 0, 0, 11, 200],
-      ["rect", 158, 0, 5, 200],
       ["stroke", 0],
       ["strokeWeight", 1],
       ["line", 0, 0, 10, 0],

@@ -14,20 +14,13 @@ function sketch(p5: P5CanvasInstance) {
   const pieceOfPaper = new PieceOfPaper(p5, 520, 420, 0.5);
   const mountain = new Mountain(p5, 465, 150, 6);
   const cloud = new Cloud(p5, 100, 100, 0.75);
-  const canyon = new Canyon(p5, 300, 432, 1);
-  const collectables = [
-    new Collectable(p5, 800, 400, 1),
-    new Collectable(p5, 700, 350, 1),
-    new Collectable(p5, 600, 420, 1),
-    new Collectable(p5, 200, 400, 1),
-    new Collectable(p5, 400, 400, 1),
-  ];
+  const canyon = new Canyon(p5, 200, 432, 1, 50);
+  const collectables = [new Collectable(p5, 800, 400, 1)];
   // const collectable = new Collectable(p5, 800, 400, 1);
   const trees = [
     new Tree(p5, 600, 300, 1),
     new Tree(p5, 520, 310, 1),
     new Tree(p5, 850, 350, 1),
-    new Tree(p5, 100, 250, 1),
   ];
 
   p5.setup = () => {

@@ -18,7 +18,7 @@ function sketch(p5: P5CanvasInstance) {
   const collectables = [new Collectable(p5, 800, 400, 1)];
   // const collectable = new Collectable(p5, 800, 400, 1);
   const trees = [
-    new Tree(p5, 600, 300, 1),
+    new Tree(p5, 700, 300, 1),
     new Tree(p5, 520, 310, 1),
     new Tree(p5, 850, 350, 1),
   ];
@@ -81,7 +81,7 @@ function sketch(p5: P5CanvasInstance) {
   };
 }
 
-export const ThreeA = () => (
+export const SideScroller = () => (
   <>
     <div className="flex h-16 justify-between">
       <div className="flex bg-white">

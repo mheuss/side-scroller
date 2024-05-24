@@ -2,6 +2,9 @@ import { Sprite } from "src/models/sprite";
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
 
+const MAX_WIDTH = 50;
+const MIN_WIDTH = 0;
+
 export class Canyon extends Sprite {
   private width; // Width or spread of the chasm
   constructor(
@@ -12,7 +15,8 @@ export class Canyon extends Sprite {
     width: number = 0,
   ) {
     super(p5, x, y, scale ?? 1);
-    this.width = width;
+
+    this.width = p5.constrain(width, MIN_WIDTH, MAX_WIDTH);
   }
 
   public draw() {

@@ -6,7 +6,7 @@ import { TwoB } from "src/projects/TwoB";
 import { selectProject } from "src/redux/project";
 import { JSX } from "react";
 import { Animator } from "src/projects/Animator";
-import { ThreeA } from "src/projects/ThreeA";
+import { SideScroller } from "src/projects/SideScroller";
 
 export const App = () => {
   const project = useSelector(selectProject);
@@ -20,8 +20,8 @@ export const App = () => {
     childComponent = <TwoB />;
   } else if (project === "animator") {
     childComponent = <Animator />;
-  } else if (project === "ThreeA") {
-    childComponent = <ThreeA />;
+  } else if (project === "SideScroller") {
+    childComponent = <SideScroller />;
   }
 
   return (

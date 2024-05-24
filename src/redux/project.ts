@@ -7,7 +7,7 @@ interface IProjectAction extends Action {
 export const projectSlice = createSlice({
   name: "project",
   initialState: {
-    value: "ThreeA",
+    value: "SideScroller",
   },
   reducers: {
     changeProject: (state: any, action: IProjectAction) => {

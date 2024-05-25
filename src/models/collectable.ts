@@ -3,6 +3,9 @@ import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
 import { randomInt } from "src/utilities";
 
+const SMILE_MAX = 12;
+const SMILE_MIN = 2;
+
 export class Collectable extends Sprite {
   private isFound: boolean = false;
   private coinColor: number[];
@@ -17,7 +20,7 @@ export class Collectable extends Sprite {
       randomInt(0, 150),
     ];
 
-    this.smileArc = randomInt(2, 12);
+    this.smileArc = randomInt(SMILE_MIN, SMILE_MAX);
   }
 
   public checkGather = (character_x: number, character_y: number) => {
@@ -29,8 +32,8 @@ export class Collectable extends Sprite {
   public transformSmile = () => {
     if (this.p5.frameCount % 5 === 0) {
       this.smileArc += this.transforming;
-      if (this.smileArc > 12 || this.smileArc < 2) {
-        this.smileArc = this.p5.constrain(this.smileArc, 2, 12);
+      if (this.smileArc > SMILE_MAX || this.smileArc < SMILE_MIN) {
+        this.smileArc = this.p5.constrain(this.smileArc, SMILE_MIN, SMILE_MAX);
         this.transforming = 0;
       }
     }
@@ -48,7 +51,7 @@ export class Collectable extends Sprite {
 
     if (this.p5.frameCount % 60 === 0) {
       if (randomInt(0, 10) > 7) {
-        this.smileArc === 12
+        this.smileArc === SMILE_MAX
           ? (this.transforming = -1)
           : (this.transforming = 1);
       }

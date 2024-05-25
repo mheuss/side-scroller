@@ -68,6 +68,8 @@ export enum ControlledBy {
 const JUMP_INCREMENT = 10;
 const MAX_JUMP_HEIGHT = 250;
 
+const MAX_WALK_HEIGHT = 356;
+
 /**
  * Here is our class. It extends Sprite class, which is a class that is used to
  * render objects on the screen.
@@ -626,10 +628,17 @@ export class PieceOfPaper extends Sprite {
       }
     }
 
+    // do some things if we are jumping or falling
     if (this.isJumping || this.isFalling) {
+      // Set animation to jumping
       this.setAction(Action.JUMPING);
     } else {
+      // We are standing. Set animation to standing
       this.setAction(Action.STANDING);
+      // Let's be sure we don't walk to high up on the screen
+      if (this.getY() < MAX_WALK_HEIGHT && y < 0) {
+        y = 0;
+      }
     }
 
     this.move(x, y);

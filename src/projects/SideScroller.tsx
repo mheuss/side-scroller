@@ -24,7 +24,9 @@ function sketch(p5: P5CanvasInstance) {
   ];
 
   p5.setup = () => {
-    p5.createCanvas(1024, 576);
+    const canvas = p5.createCanvas(1024, 576);
+    // Necessary for the canvas to be able to read pixel data at optimum speed
+    canvas.canvas.getContext("2d", { willReadFrequently: true });
   };
 
   p5.keyPressed = () => {

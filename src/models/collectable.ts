@@ -1,17 +1,38 @@
 import { Sprite } from "src/models/sprite";
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
+import { randomInt } from "src/utilities";
 
 export class Collectable extends Sprite {
   private isFound: boolean = false;
+  private coinColor: number[];
+  private smileArc: number;
+  private transforming: number = 0;
 
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
     super(p5, x, y, scale ?? 1, { x: 0, y: 0, h: 150, w: 75 });
+    this.coinColor = [
+      randomInt(210, 255),
+      randomInt(180, 255),
+      randomInt(0, 150),
+    ];
+
+    this.smileArc = randomInt(2, 12);
   }
 
   public checkGather = (character_x: number, character_y: number) => {
     if (this.collisionCheck(character_x, character_y)) {
       this.isFound = true;
+    }
+  };
+
+  public transformSmile = () => {
+    if (this.p5.frameCount % 5 === 0) {
+      this.smileArc += this.transforming;
+      if (this.smileArc > 12 || this.smileArc < 2) {
+        this.smileArc = this.p5.constrain(this.smileArc, 2, 12);
+        this.transforming = 0;
+      }
     }
   };
 
@@ -21,7 +42,20 @@ export class Collectable extends Sprite {
       return;
     }
 
-    const { coinColor, coinOutline, coinHighlight } = colors;
+    if (this.transforming !== 0) {
+      this.transformSmile();
+    }
+
+    if (this.p5.frameCount % 60 === 0) {
+      if (randomInt(0, 10) > 7) {
+        this.smileArc === 12
+          ? (this.transforming = -1)
+          : (this.transforming = 1);
+      }
+    }
+
+    const { coinOutline, coinHighlight } = colors;
+    const { coinColor, smileArc } = this;
 
     this.processArray([
       ["stroke", coinOutline],
@@ -47,7 +81,7 @@ export class Collectable extends Sprite {
       ["ellipse", 85, 80, 6, 6], // Right dimple
       ["stroke", coinOutline],
       ["fill", coinOutline],
-      ["arc", 75, 80, 8, 0, this.p5.PI, this.p5.OPEN], // Smile
+      ["arc", 75, 80, smileArc, 0, this.p5.PI, this.p5.OPEN], // Smile
       ["noStroke"],
       ["fill", 0, 0, 0, 25],
       ["ellipse", 75, 150, 70, 10],

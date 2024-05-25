@@ -1,16 +1,13 @@
 import { Sprite } from "src/models/sprite";
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
+import { randomInt } from "src/utilities";
 
 export interface IRandomizedElements {
   x: number;
   y: number;
   width: number;
 }
-
-// Returns a random integer from within a range
-export const randomInt = (min: number, max: number) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
 
 interface ITreeRandomizedElements {
   backgroundCanopy: IRandomizedElements[];

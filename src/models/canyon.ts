@@ -157,8 +157,9 @@ export class Canyon extends Sprite {
       ["endShape", this.p5.CLOSE],
       ["noStroke"],
       ["stroke", 0],
-      ["strokeWeight", 1],
-      ["line", 0, 0, 10, 0],
+      ["strokeWeight", 0.5],
+      ["line", 0, 0, 20, 0],
+      ["line", 128 + crevice.width, 0, 200 + crevice.width, 0],
     ]);
   }
 }

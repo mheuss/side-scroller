@@ -85,7 +85,7 @@ export class Canyon extends Sprite {
       ["line", 0, 0, 158 + crevice.width, 0], //draw a horizon line
       ["noStroke"],
       ["fill", blueSky],
-      ["rect", 2, 0, 158 + crevice.width, 200],
+      ["rect", 2, -1, 158 + crevice.width, 200],
       ["fill", darkerGray],
       ["noStroke"],
       ["beginShape"],

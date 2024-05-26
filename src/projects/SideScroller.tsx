@@ -3,7 +3,7 @@ import { P5CanvasInstance, ReactP5Wrapper } from "@p5-wrapper/react";
 import { PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
 import { Mountain } from "src/models/mountain";
-import { Cloud } from "src/models/cloud";
+import { Cloud, Mood } from "src/models/cloud";
 import { Canyon } from "src/models/canyon";
 import { Collectable } from "src/models/collectable";
 import { Tree } from "src/models/tree";
@@ -13,7 +13,7 @@ import { Sprite } from "src/models/sprite";
 function sketch(p5: P5CanvasInstance) {
   const pieceOfPaper = new PieceOfPaper(p5, 520, 420, 0.5);
   const mountain = new Mountain(p5, 465, 150, 6);
-  const cloud = new Cloud(p5, 100, 100, 0.75);
+  const cloud = new Cloud(p5, 600, 100, 0.75);
   const canyon = new Canyon(p5, 200, 432, 1, 50);
   const collectables = [new Collectable(p5, 800, 400, 1)];
   // const collectable = new Collectable(p5, 800, 400, 1);
@@ -55,9 +55,6 @@ function sketch(p5: P5CanvasInstance) {
     p5.stroke(0);
     p5.strokeWeight(1);
     p5.line(0, 432, 1024, 432);
-
-    // Actions
-    cloud.drift();
 
     // Render
     mountain.draw();

@@ -23,6 +23,7 @@ export function Menu() {
       title: "Project 2B",
     },
     { project: "SideScroller", title: "Side Scroller" },
+    { project: "WarholSoup", title: "Warhol Soup" },
   ];
 
   const handleClick = (project: string) => {

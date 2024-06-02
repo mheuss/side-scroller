@@ -7,6 +7,7 @@ import { selectProject } from "src/redux/project";
 import { JSX } from "react";
 import { Animator } from "src/projects/Animator";
 import { SideScroller } from "src/projects/SideScroller";
+import { WarholSoup } from "src/projects/WarholSoup";
 
 export const App = () => {
   const project = useSelector(selectProject);
@@ -22,6 +23,8 @@ export const App = () => {
     childComponent = <Animator />;
   } else if (project === "SideScroller") {
     childComponent = <SideScroller />;
+  } else if (project === "WarholSoup") {
+    childComponent = <WarholSoup />;
   }
 
   return (

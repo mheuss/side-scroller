@@ -3,11 +3,18 @@ import { Sprite } from "src/models/sprite";
 import { colors } from "src/constants";
 import { randomInt } from "src/utilities";
 
+/**
+ * Specifies the mood of the cloud
+ */
 export enum Mood {
   Happy,
-  Sad,
+  Sad, // @todo Implement sad to throw lightning
 }
 
+/**
+ * This class represents a cloud that can be happy or sad. Sad cloud throws lightning,
+ * happy cloud just drifts.
+ */
 export class Cloud extends Sprite {
   private mood: Mood = Mood.Happy;
   private chanceOfStrike; // 0-1000 - when the cloud is sad, it has a chance of striking - 1000 being 100%
@@ -58,6 +65,9 @@ export class Cloud extends Sprite {
     }
   };
 
+  /**
+   * Draws a happy cloud
+   */
   private drawHappy = () => {
     this.processArray([
       ["stroke", ...colors.cloudBorder],
@@ -90,6 +100,9 @@ export class Cloud extends Sprite {
     ]);
   };
 
+  /**
+   * Draws a sad cloud
+   */
   private drawSad = () => {
     const { chanceOfStrike } = this;
     let cloudFill = 180;

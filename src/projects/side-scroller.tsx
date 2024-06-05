@@ -7,7 +7,6 @@ import { Cloud, Mood } from "src/models/cloud";
 import { Canyon } from "src/models/canyon";
 import { Collectable } from "src/models/collectable";
 import { Tree } from "src/models/tree";
-import { Menu } from "src/menu";
 import { Sprite } from "src/models/sprite";
 
 function sketch(p5: P5CanvasInstance) {
@@ -16,7 +15,7 @@ function sketch(p5: P5CanvasInstance) {
   const cloud = new Cloud(p5, 600, 100, 0.75);
   const canyon = new Canyon(p5, 200, 432, 1, 50);
   const collectables = [new Collectable(p5, 800, 400, 1)];
-  // const collectable = new Collectable(p5, 800, 400, 1);
+
   const trees = [
     new Tree(p5, 700, 300, 1),
     new Tree(p5, 520, 310, 1),
@@ -42,7 +41,6 @@ function sketch(p5: P5CanvasInstance) {
     pieceOfPaper.checkForInteraction(collectables);
 
     // Let's check for input
-    // pieceOfPaper.checkKeyboardInput();
     pieceOfPaper.handleMovementAndOrientation();
 
     p5.background(colors.blueSky);
@@ -82,11 +80,6 @@ function sketch(p5: P5CanvasInstance) {
 
 export const SideScroller = () => (
   <>
-    <div className="flex h-16 justify-between">
-      <div className="flex bg-white">
-        <Menu />
-      </div>
-    </div>
     <ReactP5Wrapper sketch={sketch} />
   </>
 );

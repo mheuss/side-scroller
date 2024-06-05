@@ -1,28 +1,99 @@
-Character Animator
+Next steps/Thoughts/Scratch Pad:
 
-Character is defined by a series of points that are connected by lines.
-The points are called vertices, and they are connected to two lines
+Side SCrolling:
 
-A user can click on a vertice and drag it to the new location.
-The lines connected to the vertice will move with it. We will calculate the
-rise and run of the line connected to the vertice and move the other vertices.
+I am envision multiple levels - and each level will be defined by objects within
+an array.
 
-If there are additional lines connected to those vertices, we will move them as well.
+maybe something like this:
 
-The line's lengths will not change, but the angle of the line will change.
+gameLevels[each_level]{
+    totalLength: number,
+    objects: [
+        {
+            type: 'tree',
+            appearance_x: number,
+            appearance_y: number,
+        },
+        {
+            type: 'collectable',
+            appearance_x: number,
+            appearance_y number,
+        },
+        {
+            type: 'enemy',
+            appearance_x: number,
+            appearance_y: number,
+        }
+    ]
+}
 
-The user can click on a button entitled new frame - and the current frame will be copied to
-the next, the heading above the line will change, and the user can then manipulate these
-vertices below.
+By knowing our current viewport and centering on the character, we can determine
+what should be drawn as to when.
 
-The user can click on a button entitled previous frame - and can make changes to that frame.
-That change will take place for that frame and all further frames.
+Enemy characters are going to need to be treated differently. They'd start at a given
+location, but once started, we will need to dedicate time in each loop to move them
+towards the character. This will need to be thought through, though.
 
-There will be a box drawing of all those frames at the bottom with a back and next arrow.
-The user can click on those arrows and see earlier and later changes.
 
-Additionally, there will be a box that will show the current animation cycling through
-the frames on an infinite loop.
+Animation:
 
-When the user clicks done, all the frames will be output as line commands stored in
-an array inside a text area. The user can then copy and paste that text wherever.
+Either implement reverse kinematics or just do a straight up collections of frames I
+want to increment through.
+
+Maybe something like:
+
+character[action][direction][frame]
+
+Where action is walk, run, attack, etc. Direction is up, down, left, right, etc.
+
+Or perhaps better:
+
+{
+    currentFrame?? Probably not -think this through.
+    animationFrames: {
+        walk: {
+            up: [frame1, frame2, frame3],
+            down: [frame1, frame2, frame3],
+            left: [frame1, frame2, frame3],
+            right: [frame1, frame2, frame3]
+        },
+        run: {
+            up: [frame1, frame2, frame3],
+            down: [frame1, frame2, frame3],
+            left: [frame1, frame2, frame3],
+            right: [frame1, frame2, frame3]
+        },
+        jump: {
+            up: [frame1, frame2, frame3],
+            down: [frame1, frame2, frame3],
+            left: [frame1, frame2, frame3],
+            right: [frame1, frame2, frame3]
+        }
+    }
+}
+
+
+I'm not sure of my narrative yet. What's the purpose? Right now, we be just running.
+
+There needs to be a point.
+
+Sounds:
+
+It would be kinda cool to feature a father and son (really young, say 5) who are talking
+about writing a game together. The father could have the son do the drawing, on notebook
+paper. The characters could be stick figures, say, on torn out pieces of paper.
+
+The father could be explaining the concepts of the game to the son, and the son could be
+adding, embellishing, and getting excited???
+
+And... i might be getting carried away.
+
+Characters:
+
+CLOUD:
+    Drifts along. Can occassionally get pissed and throw lightening maybe down at the
+    character below? Need to make it so there is a way to avoid it. Maybe the character
+    can jump on the cloud and ride it for a bit? Or the cloud flickers before it strikes?
+
+    Need to think on this.

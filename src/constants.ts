@@ -1,3 +1,8 @@
+/*
+Let's not scatter numbers everywhere. I know better. Going forward, I'm going
+to consolidate them all here.
+ */
+
 export const colors = {
   blueSky: [207, 240, 243, 255],
   grassGreen: [0, 155, 0],

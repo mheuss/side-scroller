@@ -7,6 +7,16 @@ export interface IBounds {
   h: number;
 }
 
+/**
+ * This class represents a sprite that can be drawn on the canvas. It has a position,
+ * scale, and bounds for collision detection.
+ *
+ * This class is meant to be extended. It has a draw method that is meant to be
+ * overridden by the child class.
+ *
+ * When the child class passes draw commands in, we will scale and offset them
+ * as appropriate.
+ */
 export class Sprite {
   private x: number;
   private y: number;
@@ -292,6 +302,8 @@ export class Sprite {
   /**
    * Stubbed in draw command. This method is here because I want to catch any
    * classes that don't implement their own draw method.
+   *
+   * I make mistakes. I like to catch them before you do.
    */
   draw() {
     const { fill, stroke, strokeWeight, text } = this.p5;

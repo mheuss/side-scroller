@@ -1,3 +1,7 @@
+/*
+ * See note in global-state
+ */
+
 import { Action, createSlice } from "@reduxjs/toolkit";
 
 interface IProjectAction extends Action {

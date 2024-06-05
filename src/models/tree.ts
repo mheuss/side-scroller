@@ -3,17 +3,26 @@ import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
 import { randomInt } from "src/utilities";
 
+/**
+ * Keeps track of the placements of the tree
+ */
 export interface IRandomizedElements {
   x: number;
   y: number;
   width: number;
 }
 
+/**
+ * Keeps track of the randomized elements of the tree
+ */
 interface ITreeRandomizedElements {
   backgroundCanopy: IRandomizedElements[];
   foregroundCanopy: IRandomizedElements[];
 }
 
+/**
+ * This class represents a tree that can have a randomized canopy.
+ */
 export class Tree extends Sprite {
   private randomizedElements: ITreeRandomizedElements = {
     backgroundCanopy: [],
@@ -24,6 +33,8 @@ export class Tree extends Sprite {
     super(p5, x, y, scale ?? 1, { x: 70, y: 100, h: 100, w: 25 });
 
     // Randomize the tree's elements
+    // We are doing this once, in the constructor. It'll just render
+    // in the draw
     this.randomizedElements = {
       backgroundCanopy: [
         {
@@ -62,6 +73,9 @@ export class Tree extends Sprite {
     };
   }
 
+  /**
+   * Draws tree
+   */
   public draw = () => {
     const { darkFoliage, foliageOutline, lightFoliage, lightBark, darkBark } =
       colors;

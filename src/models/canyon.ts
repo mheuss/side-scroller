@@ -3,15 +3,26 @@ import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
 import { randomInt } from "src/utilities";
 
+/*
+Since i want the width of the canyon to vary, and even to animate opening and closing
+at different times, I need to set a max and min width size.
+ */
 const MAX_WIDTH = 50;
 const MIN_WIDTH = 0;
 
+/*
+  Interface for the crevice - to keep track of properties pertaining to this
+  character.
+*/
 interface ICrevice {
   width: number;
   velocity: number;
   chanceForChange: number;
 }
 
+/**
+ * This class represents the canyon that the player will have to jump over.
+ */
 export class Canyon extends Sprite {
   private crevice: ICrevice; // Width or spread of the chasm
 
@@ -24,6 +35,7 @@ export class Canyon extends Sprite {
   ) {
     super(p5, x, y, scale ?? 1);
 
+    // Default props
     this.crevice = {
       width: p5.constrain(crevice, MIN_WIDTH, MAX_WIDTH),
       velocity: 0,
@@ -71,12 +83,17 @@ export class Canyon extends Sprite {
     }
   };
 
+  /**
+   * Main draw function.
+   */
   public draw() {
     const { blueSky, grassGreen, darkerGray, midGray, stoneGray } = colors;
     const { crevice } = this;
 
+    // Check if we are applying animation to this canyon, and if so, animate it.
     this.shouldCreviceChange();
 
+    // We pass the draw commands to the base class to render.
     this.processArray([
       // First Spread
       ["stroke", blueSky],

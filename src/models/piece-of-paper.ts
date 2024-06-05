@@ -3,6 +3,12 @@ import { IBounds, Sprite } from "src/models/sprite";
 import { colors } from "src/constants";
 import { Collectable } from "src/models/collectable";
 
+/*
+@todo This class is getting too big. I am going to need to refactor this, so
+no single class is more than 150+ lines. It just reduced the cognitive
+complexity.
+ */
+
 /**
  * Note:
  * Interface - this is typescript, a layer on top of javascript.
@@ -60,15 +66,22 @@ export enum Action {
   PLUMMETING = 3,
 }
 
+/**
+ * At some point here, I am going to have a mouse controlled game, in addition to keyboard
+ * depending on what a person chooses from a future loading screen.
+ *
+ * This enum is to clarify how the piece of paper is gonna be controlled
+ */
 export enum ControlledBy {
   KEYBOARD = 0,
   MOUSE = 1,
 }
 
-const JUMP_INCREMENT = 10;
-const MAX_JUMP_HEIGHT = 250;
+// Set our constants
+const JUMP_INCREMENT = 10; // Fast Jump
+const MAX_JUMP_HEIGHT = 250; // Let's not go overboard
 
-const MAX_WALK_HEIGHT = 356;
+const MAX_WALK_HEIGHT = 356; // Let's not walk up into the sky
 
 /**
  * Here is our class. It extends Sprite class, which is a class that is used to
@@ -84,6 +97,8 @@ export class PieceOfPaper extends Sprite {
   private controlledBy: ControlledBy = ControlledBy.KEYBOARD;
 
   // Added variables for 3a
+  // This isn't the best way to do this - but it is the way UoL wants this done.
+  // It is unwieldy code - and not very clean
   private isJumping: boolean = false;
   private isFalling: boolean = false;
   private isLeft: boolean = false;
@@ -116,6 +131,10 @@ export class PieceOfPaper extends Sprite {
     this.controlledBy = ControlledBy.KEYBOARD;
   }
 
+  /**
+   * Set how this model is controlled
+   * @param controlledBy Enum specifying control by mouse or keyboard
+   */
   public setControlledBy = (controlledBy: ControlledBy) => {
     this.controlledBy = controlledBy;
   };
@@ -501,6 +520,10 @@ export class PieceOfPaper extends Sprite {
     }
   };
 
+  /**
+   * Handles key presses
+   * @todo I need to also implement UoL keys
+   */
   public handleKeyPress = () => {
     // Let's not do anything if we are jumping or falling
     if (this.isJumping || this.isFalling || this.isPlummeting) {
@@ -531,6 +554,10 @@ export class PieceOfPaper extends Sprite {
     }
   };
 
+  /**
+   * Handles key releases
+   * @todo - Implements UoL
+   */
   public handleKeyRelease = () => {
     const keyCode = this.p5.keyCode;
 
@@ -556,6 +583,10 @@ export class PieceOfPaper extends Sprite {
     }
   };
 
+  /**
+   * Handle logic associated with jumping or falling.
+   */
+
   public isJumpingOrFalling = () => {
     let y = 0;
 
@@ -574,7 +605,8 @@ export class PieceOfPaper extends Sprite {
       }
 
       y -= JUMP_INCREMENT;
-    } // Take care of falling
+    }
+    // Take care of falling
     else if (this.isFalling) {
       this.jumpHeight -= JUMP_INCREMENT;
       if (this.jumpHeight <= 0) {
@@ -587,6 +619,9 @@ export class PieceOfPaper extends Sprite {
     return y;
   };
 
+  /**
+   * This function will handle the movement and orientation of the piece of paper
+   */
   public handleMovementAndOrientation = () => {
     // Get x ready to go
     let x = 0;
@@ -603,6 +638,10 @@ export class PieceOfPaper extends Sprite {
       y += movement_increment * 7;
     }
 
+    // Handle when moving at diagonals. Since they'll be moving both up/down and left/right
+    // simultanously, we need to half the speed to keep the same speed, if you
+    // know what I am saying.
+    // And if you don't, hell, man, words are hard. Just trust me, it has to be done.
     if (
       (this.isUp && (this.isLeft || this.isRight)) ||
       (this.isDown && (this.isLeft || this.isRight))
@@ -610,6 +649,7 @@ export class PieceOfPaper extends Sprite {
       movement_increment /= 2;
     }
 
+    // Handle left and right
     if (this.isLeft) {
       x -= movement_increment;
       this.setOrientation(Orientation.LEFT);
@@ -618,6 +658,8 @@ export class PieceOfPaper extends Sprite {
       this.setOrientation(Orientation.RIGHT);
     }
 
+    // If y is zero, then we aren't jumping or falling
+    // so handle the up and down
     if (y === 0) {
       if (this.isUp) {
         y -= movement_increment;
@@ -641,6 +683,7 @@ export class PieceOfPaper extends Sprite {
       }
     }
 
+    // Send the move vectors to the underlying sprint class
     this.move(x, y);
   };
 
@@ -656,7 +699,7 @@ export class PieceOfPaper extends Sprite {
       return;
     }
 
-    // NOw, let's check for interactions
+    // Now, let's check for interactions
     objects.forEach((object) => {
       switch (object.constructor.name) {
         default:
@@ -676,8 +719,8 @@ export class PieceOfPaper extends Sprite {
 
       // Get the color of the bottom middle of our piece of paper
       const hoveringColor = this.p5.get(this.getCenterX(), this.getBottomY());
-      // Check to be sure that the arrays called colors.blueSky and hoveringColor have the same entries in the same order
-
+      // Check to be sure that the arrays called colors.blueSky and hoveringColor
+      // have the same entries in the same order
       if (
         colors.blueSky.every(
           (value: number, index: number) => value === hoveringColor[index],
@@ -714,7 +757,8 @@ export class PieceOfPaper extends Sprite {
       }
     }
 
-    // Get the model data
+    // Get the model data. This is all precalculated and will render quickly
+    // by the use of the lookup table.
     const modelData =
       this.modelData.models[this.currentAction].data[this.currentOrientation]
         .data;

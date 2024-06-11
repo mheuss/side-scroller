@@ -1,7 +1,6 @@
 import { Sprite } from "src/models/sprite";
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
-import { randomInt } from "src/utilities";
 
 /**
  * Keeps track of the placements of the tree
@@ -38,36 +37,36 @@ export class Tree extends Sprite {
     this.randomizedElements = {
       backgroundCanopy: [
         {
-          x: 50 + (randomInt(0, 40) - 20),
-          y: 70 + (randomInt(0, 20) - 10),
-          width: 100 + (randomInt(0, 40) - 20),
+          x: 50 + (this.randomInt(0, 40) - 20),
+          y: 70 + (this.randomInt(0, 20) - 10),
+          width: 100 + (this.randomInt(0, 40) - 20),
         },
         {
-          x: 140 + (randomInt(0, 40) - 20),
-          y: 80 + (randomInt(0, 20) - 10),
-          width: 100 + (randomInt(0, 40) - 20),
+          x: 140 + (this.randomInt(0, 40) - 20),
+          y: 80 + (this.randomInt(0, 20) - 10),
+          width: 100 + (this.randomInt(0, 40) - 20),
         },
         {
-          x: 80 + (randomInt(0, 40) - 20),
-          y: 50 + (randomInt(0, 20) - 10),
-          width: 100 + (randomInt(0, 40) - 20),
+          x: 80 + (this.randomInt(0, 40) - 20),
+          y: 50 + (this.randomInt(0, 20) - 10),
+          width: 100 + (this.randomInt(0, 40) - 20),
         },
       ],
       foregroundCanopy: [
         {
-          x: 120 + (randomInt(0, 40) - 20),
-          y: 45 + (randomInt(0, 20) - 10),
-          width: 90 + (randomInt(0, 30) - 15),
+          x: 120 + (this.randomInt(0, 40) - 20),
+          y: 45 + (this.randomInt(0, 20) - 10),
+          width: 90 + (this.randomInt(0, 30) - 15),
         },
         {
-          x: 95 + (randomInt(0, 40) - 20),
-          y: 85 + (randomInt(0, 20) - 10),
-          width: 90 + (randomInt(0, 30) - 15),
+          x: 95 + (this.randomInt(0, 40) - 20),
+          y: 85 + (this.randomInt(0, 20) - 10),
+          width: 90 + (this.randomInt(0, 30) - 15),
         },
         {
-          x: 50 + (randomInt(0, 40) - 20),
-          y: 50 + (randomInt(0, 20) - 10),
-          width: 90 + (randomInt(0, 30) - 15),
+          x: 50 + (this.randomInt(0, 40) - 20),
+          y: 50 + (this.randomInt(0, 20) - 10),
+          width: 90 + (this.randomInt(0, 30) - 15),
         },
       ],
     };

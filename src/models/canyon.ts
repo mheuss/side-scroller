@@ -1,7 +1,6 @@
 import { Sprite } from "src/models/sprite";
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
-import { randomInt } from "src/utilities";
 
 /*
 Since i want the width of the canyon to vary, and even to animate opening and closing
@@ -62,10 +61,10 @@ export class Canyon extends Sprite {
   private shouldCreviceChange = () => {
     const { crevice } = this;
 
-    const changePercent = randomInt(0, 100);
+    const changePercent = this.randomInt(0, 100);
 
     if (changePercent < crevice.chanceForChange) {
-      crevice.velocity = randomInt(0, 4) - 2;
+      crevice.velocity = this.randomInt(0, 4) - 2;
     }
 
     if (crevice.velocity === 0) {

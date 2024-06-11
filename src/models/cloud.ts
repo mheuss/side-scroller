@@ -1,7 +1,6 @@
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { Sprite } from "src/models/sprite";
 import { colors } from "src/constants";
-import { randomInt } from "src/utilities";
 
 /**
  * Specifies the mood of the cloud
@@ -108,7 +107,7 @@ export class Cloud extends Sprite {
     let cloudFill = 180;
     if (chanceOfStrike) {
       if (this.chanceCounter === 0) {
-        const strike = randomInt(0, 1000);
+        const strike = this.randomInt(0, 1000);
         if (strike < chanceOfStrike) {
           this.chanceCounter = 1;
         }

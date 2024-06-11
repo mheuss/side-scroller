@@ -47,6 +47,12 @@ export class Sprite {
   }
 
   /**
+   * This method just wraps p5 random number for convenience
+   */
+  public randomInt = (min: number, max: number) =>
+    Math.floor(this.p5.random(min, max));
+
+  /**
    * When given the characters coordinates, are we colliding?
    * @param character_x Character's X coord.(leftmost x)
    * @param character_y Character's Y coord.(bottom most y)

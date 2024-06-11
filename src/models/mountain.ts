@@ -1,7 +1,5 @@
 import { Sprite } from "src/models/sprite";
 import { P5CanvasInstance } from "@p5-wrapper/react";
-import { colors } from "src/constants";
-import { randomInt } from "src/utilities";
 
 /**
  * This class represents a mountain range - 1 to 3 mountains.
@@ -12,7 +10,7 @@ export class Mountain extends Sprite {
     super(p5, x, y, scale ?? 1);
 
     // Define a random gray, within a given range.
-    let stoneColor = randomInt(100, 200);
+    let stoneColor = this.randomInt(100, 200);
 
     /*
     In our constructor, we are going to randomly define the mountains that
@@ -37,7 +35,7 @@ export class Mountain extends Sprite {
     ];
 
     // Do it again
-    stoneColor = randomInt(100, 200);
+    stoneColor = this.randomInt(100, 200);
 
     const mntn2 = [
       // Second mnt
@@ -52,7 +50,7 @@ export class Mountain extends Sprite {
     ];
 
     // And again
-    stoneColor = randomInt(100, 200);
+    stoneColor = this.randomInt(100, 200);
 
     const mtn3 = [
       // 3rd mountain
@@ -71,17 +69,17 @@ export class Mountain extends Sprite {
     this.drawArray = [["noStroke"]];
 
     // 30% chance of first mountain
-    if (randomInt(1, 10) > 7) {
+    if (this.randomInt(1, 10) > 7) {
       // Use the spread operator to add the draw commands to the array
       this.drawArray = [...this.drawArray, ...mntn1];
     }
     // 40% chance of second mountain
-    if (randomInt(1, 10) > 6) {
+    if (this.randomInt(1, 10) > 6) {
       // Use the spread operator to add the draw commands to the array
       this.drawArray = [...this.drawArray, ...mntn2];
     }
     // 40% chance of third mountain
-    if (randomInt(1, 10) > 6) {
+    if (this.randomInt(1, 10) > 6) {
       // Use the spread operator to add the draw commands to the array
       this.drawArray = [...this.drawArray, ...mtn3];
     }

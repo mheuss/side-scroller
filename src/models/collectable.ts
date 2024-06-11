@@ -1,7 +1,6 @@
 import { Sprite } from "src/models/sprite";
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
-import { randomInt } from "src/utilities";
 
 /*
 I want to be able to animate the size of the smile on my coin. So I need to set
@@ -24,12 +23,12 @@ export class Collectable extends Sprite {
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
     super(p5, x, y, scale ?? 1, { x: 0, y: 0, h: 150, w: 75 });
     this.coinColor = [
-      randomInt(210, 255),
-      randomInt(180, 255),
-      randomInt(0, 150),
+      this.randomInt(210, 255),
+      this.randomInt(180, 255),
+      this.randomInt(0, 150),
     ];
 
-    this.smileArc = randomInt(SMILE_MIN, SMILE_MAX);
+    this.smileArc = this.randomInt(SMILE_MIN, SMILE_MAX);
   }
 
   /**
@@ -77,7 +76,7 @@ export class Collectable extends Sprite {
 
     // Every 60 frames, let's possible change the smile
     if (this.p5.frameCount % 60 === 0) {
-      if (randomInt(0, 10) > 7) {
+      if (this.randomInt(0, 10) > 7) {
         this.smileArc === SMILE_MAX
           ? (this.transformSmileIncrement = -1)
           : (this.transformSmileIncrement = 1);

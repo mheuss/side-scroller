@@ -3,7 +3,7 @@
 
 .parcel-cache/
 
-dist/
+dist/**/*.map
 
 node_modules/.bin/
 

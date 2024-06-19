@@ -18,6 +18,7 @@ export class Collectable extends Sprite {
   private coinColor: number[];
   private smileArc: number;
   private transformSmileIncrement: number = 0;
+  public className = "Collectable";
 
   // Initialize the coin
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {

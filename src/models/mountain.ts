@@ -6,6 +6,8 @@ import { P5CanvasInstance } from "@p5-wrapper/react";
  */
 export class Mountain extends Sprite {
   private drawArray: any[][];
+  public className = "Mountain";
+
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
     super(p5, x, y, scale ?? 1);
 

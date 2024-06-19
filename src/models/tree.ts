@@ -27,6 +27,7 @@ export class Tree extends Sprite {
     backgroundCanopy: [],
     foregroundCanopy: [],
   };
+  public className = "Tree";
 
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
     super(p5, x, y, scale ?? 1, { x: 70, y: 100, h: 100, w: 25 });

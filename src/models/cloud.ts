@@ -18,6 +18,7 @@ export class Cloud extends Sprite {
   private mood: Mood = Mood.Happy;
   private chanceOfStrike; // 0-1000 - when the cloud is sad, it has a chance of striking - 1000 being 100%
   private chanceCounter;
+  public className = "Cloud";
 
   constructor(
     p5: P5CanvasInstance,

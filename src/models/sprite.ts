@@ -23,6 +23,7 @@ export class Sprite {
   protected p5: P5CanvasInstance;
   protected scale: number;
   private bounds: IBounds | null;
+  public className = "Sprite";
 
   /**
    * Constructor for the Sprite class

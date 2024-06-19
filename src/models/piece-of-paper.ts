@@ -701,7 +701,7 @@ export class PieceOfPaper extends Sprite {
 
     // Now, let's check for interactions
     objects.forEach((object) => {
-      switch (object.constructor.name) {
+      switch (object.className) {
         default:
         case "Canyon": {
           // By Default, do nothing

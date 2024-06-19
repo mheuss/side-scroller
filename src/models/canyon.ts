@@ -24,7 +24,7 @@ interface ICrevice {
  */
 export class Canyon extends Sprite {
   private crevice: ICrevice; // Width or spread of the chasm
-
+  public className = "Canyon";
   constructor(
     p5: P5CanvasInstance,
     x: number,

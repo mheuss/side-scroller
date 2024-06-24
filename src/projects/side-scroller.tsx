@@ -22,20 +22,24 @@ function sketch(p5: P5CanvasInstance) {
     new Tree(p5, 850, 350, 1),
   ];
 
+  /** Handles they key presses */
   p5.setup = () => {
     const canvas = p5.createCanvas(1024, 576);
     // Necessary for the canvas to be able to read pixel data at optimum speed
     canvas.canvas.getContext("2d", { willReadFrequently: true });
   };
 
+  /** Handles key presses */
   p5.keyPressed = () => {
     pieceOfPaper.handleKeyPress();
   };
 
+  /** Handles key releases */
   p5.keyReleased = () => {
     pieceOfPaper.handleKeyRelease();
   };
 
+  /** Draw loop */
   p5.draw = () => {
     // Let's check for interactions
     pieceOfPaper.checkForInteraction(collectables);
@@ -78,6 +82,10 @@ function sketch(p5: P5CanvasInstance) {
   };
 }
 
+/**
+ * expects the game as a React component
+ * @constructor
+ */
 export const SideScroller = () => (
   <>
     <ReactP5Wrapper sketch={sketch} />

@@ -274,7 +274,7 @@ export class Sprite {
 
         // No Fill
         case "noFill":
-          this.p5.noFill(0);
+          this.p5.noFill();
           break;
 
         // No Stroke

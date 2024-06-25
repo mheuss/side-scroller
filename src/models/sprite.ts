@@ -199,6 +199,8 @@ export class Sprite {
               command +
               " in the Sprite class!",
           );
+
+          break;
         }
 
         // Arc

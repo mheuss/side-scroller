@@ -1,6 +1,11 @@
 # Simple Side Scrolling Game 
 _For University of London Intro to Programming Course_
 
+__The application itself is deployed to https://mikeheuss.com. It is always
+up-to-date as it auto deploys on commit.__ 
+
+----------
+
 Skip to the &TLDR below if you want to skip the background:
 
 I want to start off by saying that I am a senior software engineer who has been programming
@@ -25,7 +30,6 @@ I used Typescript/React/Tailwind here to scaffold this project.
 So far, I am having a blast. I haven't worked on a video game since the late nineties. At that
 time my brother and I were part of a small company that developed software for the nintendo 64. There is
 a joy in this kind of development. Thanks for reacquainting me with it. 
-
 
 ----------
 
@@ -116,8 +120,8 @@ as the width, and I want to animate these suckers. Since p5 allows for quick pix
 I went with this method.
 
 ------------
+
 ### Instructions for running.
-------------
 
 The application itself is deployed to https://mikeheuss.com. It is always
 up-to-date as it auto deploys on commit.

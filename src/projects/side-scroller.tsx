@@ -16,7 +16,7 @@ function sketch(p5: P5CanvasInstance) {
   const canyon = new Canyon(p5, 200, 432, 1, 50);
   const collectables = [new Collectable(p5, 800, 400, 1)];
 
-  const trees = [
+  const trees_x = [
     new Tree(p5, 700, 300, 1),
     new Tree(p5, 520, 310, 1),
     new Tree(p5, 850, 350, 1),
@@ -64,7 +64,7 @@ function sketch(p5: P5CanvasInstance) {
     canyon.draw();
 
     // Let's get the trees, collectible, and piece of paper to render in a specific order
-    const orderedRenders = [...trees, ...collectables, pieceOfPaper].sort(
+    const orderedRenders = [...trees_x, ...collectables, pieceOfPaper].sort(
       (a: Sprite, b: Sprite) => {
         let firstY =
           a instanceof PieceOfPaper ? a.getCalculatedY() : a.getBottomY();

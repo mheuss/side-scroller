@@ -183,11 +183,11 @@ export class PieceOfPaper extends Sprite {
     };
 
     // The intention here is as follows:
-    // We are going to cycle through the possibles orientations and
+    // We are going to cycle through the possible orientations and
     // actions to build the models
 
     // Get the orientations. Enum keys are stored by both the index number
-    // and the user friendly strings. We want to filter out the user friendly
+    // and the user-friendly strings. We want to filter out the user friendly
     // strings
     const orientations = Object.keys(Orientation).filter((value) =>
       isNaN(Number(value)),

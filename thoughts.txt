@@ -1,8 +1,19 @@
 Next steps/Thoughts/Scratch Pad:
 
+SCROLLING:
+
+
+CLOUDS WILL NOT SCROLL WITH CHARACTER. They will move on their own speed (which should
+vary per cloud)
+
+MOUNTAINS WILL SCROLL AT 1/10 the speed of the character. This will give us a cooler
+parallax effect.
+
+
+
 Side SCrolling:
 
-I am envision multiple levels - and each level will be defined by objects within
+I am envisioning multiple levels - and each level will be defined by objects within
 an array.
 
 maybe something like this:
@@ -34,6 +45,8 @@ what should be drawn as to when.
 Enemy characters are going to need to be treated differently. They'd start at a given
 location, but once started, we will need to dedicate time in each loop to move them
 towards the character. This will need to be thought through, though.
+
+
 
 
 Animation:

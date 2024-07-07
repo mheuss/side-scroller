@@ -113,6 +113,13 @@ export class Sprite {
   public getX = () => this.x;
 
   /**
+   * Returns the camera adjusted x
+   */
+  public getCameraAdjustedX = () => {
+    return this.getX() - this.p5.width / 2;
+  };
+
+  /**
    * Gets the x coordinate halfway through the sprite
    */
   public getCenterX = () => {

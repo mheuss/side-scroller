@@ -2,25 +2,12 @@ import * as React from "react";
 import { P5CanvasInstance, ReactP5Wrapper } from "@p5-wrapper/react";
 import { PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
-import { Mountain } from "src/models/mountain";
-import { Cloud, Mood } from "src/models/cloud";
-import { Canyon } from "src/models/canyon";
-import { Collectable } from "src/models/collectable";
-import { Tree } from "src/models/tree";
 import { Sprite } from "src/models/sprite";
+import { levelOne } from "src/projects/levels";
 
 function sketch(p5: P5CanvasInstance) {
   const pieceOfPaper = new PieceOfPaper(p5, 520, 420, 0.5);
-  const mountain = new Mountain(p5, 465, 150, 6);
-  const cloud = new Cloud(p5, 600, 100, 0.75);
-  const canyon = new Canyon(p5, 200, 432, 1, 50);
-  const collectables = [new Collectable(p5, 800, 400, 1)];
-
-  const trees_x = [
-    new Tree(p5, 700, 300, 1),
-    new Tree(p5, 520, 310, 1),
-    new Tree(p5, 850, 350, 1),
-  ];
+  const { trees_x, collectables, canyon, cloud, mountain } = levelOne(p5);
 
   /** Handles they key presses */
   p5.setup = () => {
@@ -41,11 +28,19 @@ function sketch(p5: P5CanvasInstance) {
 
   /** Draw loop */
   p5.draw = () => {
+    // Camera
+
     // Let's check for interactions
     pieceOfPaper.checkForInteraction(collectables);
 
     // Let's check for input
     pieceOfPaper.handleMovementAndOrientation();
+
+    // Get our camera
+    let cameraPosX = pieceOfPaper.getCameraAdjustedX();
+    if (cameraPosX < 0) {
+      cameraPosX = 0;
+    }
 
     p5.background(colors.blueSky);
     p5.smooth();
@@ -59,6 +54,9 @@ function sketch(p5: P5CanvasInstance) {
     p5.line(0, 432, 1024, 432);
 
     // Render
+    p5.push();
+    p5.translate(-cameraPosX, 0);
+
     mountain.draw();
     cloud.draw();
     canyon.draw();
@@ -76,9 +74,18 @@ function sketch(p5: P5CanvasInstance) {
 
     // Render them in order, so objects further away than the character are rendered
     // behind him
-    orderedRenders.forEach((model: Sprite) => {
-      model.draw();
-    });
+    // This should be done with a forEach on the array - the built in iterator.
+    // But the course asked for a for loop, so here it is.
+    for (let i = 0; i < orderedRenders.length; i++) {
+      const model = orderedRenders[i];
+      if (orderedRenders[i] instanceof PieceOfPaper) {
+        orderedRenders[i].draw();
+      } else {
+        orderedRenders[i].draw();
+      }
+    }
+
+    p5.pop();
   };
 }
 

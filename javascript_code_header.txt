@@ -7,7 +7,7 @@
         Looking at it this way, as a large javascript file, is unnecessary and not recommended.
         It is harder to read, harder to understand.
 
-        You'd be better off looking at the zip or the repo, and reading the README.md file
+        You'd be better off looking at the repo, and reading the README.md file
         to get your bearings. In that read me file, I specifically point you to the portions
         of the code that relate to the different objectives that were assigned.
 

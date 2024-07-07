@@ -5,6 +5,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "jsx": "react",
+    "removeComments": false,
     "strict": true,
     "baseUrl": ".",
     "paths": {

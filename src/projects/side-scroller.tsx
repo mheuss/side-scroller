@@ -4,10 +4,18 @@ import { PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
 import { Sprite } from "src/models/sprite";
 import { levelOne } from "src/projects/levels";
+import { Canyon } from "src/models/canyon";
 
 function sketch(p5: P5CanvasInstance) {
   const pieceOfPaper = new PieceOfPaper(p5, 520, 420, 0.5);
-  const { trees_x, collectables, canyon, cloud, mountain } = levelOne(p5);
+
+  /*
+  All of our level data is stored in the levelOne function. We can destructure it,
+  and use that.
+
+  I choose to use this method so I can call more levels in the future.
+   */
+  const { trees_x, collectables, canyons, clouds, mountains } = levelOne(p5);
 
   /** Handles they key presses */
   p5.setup = () => {
@@ -57,9 +65,25 @@ function sketch(p5: P5CanvasInstance) {
     p5.push();
     p5.translate(-cameraPosX, 0);
 
-    mountain.draw();
-    cloud.draw();
-    canyon.draw();
+    // This really should be a forEach, but the instructions asked for a for loop
+    // While the for loop is a bit more performant, but the difference is negligible
+    // and forEach is more readable.
+    for (let i = 0; i < mountains.length; i++) {
+      mountains[i].draw();
+    }
+
+    // This really should be a forEach, but the instructions asked for a for loop
+    // While the for loop is a bit more performant, but the difference is negligible
+    // and forEach is more readable.
+    for (let i = 0; i < clouds.length; i++) {
+      clouds[i].draw();
+    }
+
+    // Ok - here is how it should be done. I feel I can get away with this now
+    // Since you didn't specify anything as regards to canyons
+    canyons.forEach((canyon: Canyon) => {
+      canyon.draw();
+    });
 
     // Let's get the trees, collectible, and piece of paper to render in a specific order
     const orderedRenders = [...trees_x, ...collectables, pieceOfPaper].sort(
@@ -77,7 +101,6 @@ function sketch(p5: P5CanvasInstance) {
     // This should be done with a forEach on the array - the built in iterator.
     // But the course asked for a for loop, so here it is.
     for (let i = 0; i < orderedRenders.length; i++) {
-      const model = orderedRenders[i];
       if (orderedRenders[i] instanceof PieceOfPaper) {
         orderedRenders[i].draw();
       } else {

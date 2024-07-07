@@ -41,7 +41,7 @@ The `Canyon` class extends the functionality of the base `Sprite` class to inclu
 Since i want the width of the canyon to vary, and even to animate opening and closing
 at different times, I need to set a max and min width size.
  */
-const MAX_WIDTH = 50;
+const MAX_WIDTH = 70;
 const MIN_WIDTH = 0;
 
 /*
@@ -108,7 +108,7 @@ export class Canyon extends Sprite {
     const changePercent = this.randomInt(0, 100);
 
     if (changePercent < crevice.chanceForChange) {
-      crevice.velocity = this.randomInt(0, 4) - 2;
+      crevice.velocity = (this.randomInt(0, 4) - 2) / 5;
     }
 
     if (crevice.velocity === 0) {

@@ -89,12 +89,14 @@ export class Cloud extends Sprite {
    * Drifts the cloud across the screen
    */
   private drift = () => {
-    this.move(-0.4, 0);
+    // Let's use scale to determine drift. THe larger the cloud, the faster the drift
+    const speed = 0.5 * this.scale * 2;
+    this.move(-speed, 0);
     const x = this.getX();
     const y = this.getY();
 
-    if (x < -200 - this.scale * 100) {
-      this.setPosition(this.scale * 100 + 1024, y);
+    if (x < -200) {
+      this.setPosition(3000, y);
     }
   };
 

@@ -8,7 +8,8 @@
         Looking at it this way, as a large javascript file, is unnecessary and not recommended.
         It is harder to read, harder to understand.
 
-        You'd be better off looking at the repo, and reading the README.md file.
+        You'd be better off looking at the repo, or in the src directory, and reading
+        the README.md file.
 
         Again, the repo is located at https://github.com/mheuss/side-scroller and
         the README.md file is located in the root. In that read me file, I specifically point you to the portions

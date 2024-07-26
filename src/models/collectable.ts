@@ -109,7 +109,7 @@ export class Collectable extends Sprite {
       this.transformSmile();
     }
 
-    // Every 60 frames, let's possible change the smile
+    // Every 60 frames, let's possibly change the smile
     if (this.p5.frameCount % 60 === 0) {
       if (this.randomInt(0, 10) > 7) {
         this.smileArc === SMILE_MAX

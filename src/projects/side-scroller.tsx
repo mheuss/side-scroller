@@ -79,7 +79,8 @@ function sketch(p5: P5CanvasInstance) {
 
     drawCanyons(canyons);
 
-    // Let's get the trees, collectible, and piece of paper to render in a specific order
+    // Let's get the trees, collectible, and piece of paper to render in a
+    // specific order
     const orderedRenders = [...trees_x, ...collectables, pieceOfPaper].sort(
       (a: Sprite, b: Sprite) => {
         let firstY =

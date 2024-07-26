@@ -662,7 +662,7 @@ export class PieceOfPaper extends Sprite {
     let x = 0;
 
     // Calculate our prospective speed
-    let movement_increment = this.isRunning ? 5 : 2;
+    let movement_increment = this.isRunning ? 3.5 : 2;
 
     // Now initialize y and get any vector from jumping
     let y = this.isJumpingOrFalling();

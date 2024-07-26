@@ -10,7 +10,7 @@ export function levelOne(p5: P5CanvasInstance): {
   clouds: Cloud[];
   canyons: Canyon[];
   collectables: Collectable[];
-  trees_x: Tree[];
+  trees: Tree[];
 } {
   const mountains: Mountain[] = [
     new Mountain(p5, 465, 150, 6),
@@ -106,6 +106,6 @@ export function levelOne(p5: P5CanvasInstance): {
     clouds,
     canyons,
     collectables,
-    trees_x,
+    trees: trees_x,
   };
 }

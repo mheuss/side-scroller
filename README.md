@@ -83,7 +83,7 @@ For jumping/falling: `src/models/piece-of-paper`, function name `isJumpingOrFall
 
 `src/models/piece-of-paper`, function name `checkForInteraction`. 
 
-In `src/models/collectable`, function name `checkGather`, handles the test for gathering
+In `src/models/collectable`, function name `checkGathered`, handles the test for gathering
 by calling the collision detection in `src/models/sprite`, and if collided with, sets
 that sprites state to collected.
 

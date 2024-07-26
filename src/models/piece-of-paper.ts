@@ -759,7 +759,7 @@ export class PieceOfPaper extends Sprite {
           break;
         }
         case "Collectable": {
-          (object as Collectable).checkGather(this.getX(), this.getBottomY());
+          (object as Collectable).checkGathered(this.getX(), this.getBottomY());
           break;
         }
       }

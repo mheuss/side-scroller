@@ -71,7 +71,7 @@ export class Collectable extends Sprite {
    * @param character_x
    * @param character_y
    */
-  public checkGather = (character_x: number, character_y: number) => {
+  public checkGathered = (character_x: number, character_y: number) => {
     if (this.collisionCheck(character_x, character_y)) {
       this.isFound = true;
     }

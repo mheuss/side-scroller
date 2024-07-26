@@ -4,9 +4,6 @@ import { PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
 import { Sprite } from "src/models/sprite";
 import { levelOne } from "src/projects/levels";
-import { Canyon } from "src/models/canyon";
-import { Cloud } from "src/models/cloud";
-import { Mountain } from "src/models/mountain";
 
 export const START_X = 520;
 export const START_Y = 420;
@@ -23,9 +20,9 @@ function sketch(p5: P5CanvasInstance) {
 
   I choose to use this method so I can call more levels in the future.
    */
-  const { trees_x, collectables, canyons, clouds, mountains } = levelOne(p5);
+  const { trees, collectables, canyons, clouds, mountains } = levelOne(p5);
 
-  /** Handles they key presses */
+  /** Set things up */
   p5.setup = () => {
     const canvas = p5.createCanvas(viewPortWidth, viewPortHeight);
     // Necessary for the canvas to be able to read pixel data at optimum speed
@@ -73,15 +70,21 @@ function sketch(p5: P5CanvasInstance) {
     p5.push();
     p5.translate(-cameraPosX, 0);
 
-    drawMountains(mountains);
+    mountains.forEach((mountain) => {
+      mountain.draw();
+    });
 
-    drawClouds(clouds);
+    clouds.forEach((cloud) => {
+      cloud.draw();
+    });
 
-    drawCanyons(canyons);
+    canyons.forEach((canyon) => {
+      canyon.draw();
+    });
 
     // Let's get the trees, collectible, and piece of paper to render in a
     // specific order
-    const orderedRenders = [...trees_x, ...collectables, pieceOfPaper].sort(
+    const orderedRenders = [...trees, ...collectables, pieceOfPaper].sort(
       (a: Sprite, b: Sprite) => {
         let firstY =
           a instanceof PieceOfPaper ? a.getCalculatedY() : a.getBottomY();
@@ -96,54 +99,11 @@ function sketch(p5: P5CanvasInstance) {
     // This should be done with a forEach on the array - the built-in iterator.
     // But the course asked for a for loop, so here it is.
     for (let i = 0; i < orderedRenders.length; i++) {
-      if (orderedRenders[i] instanceof PieceOfPaper) {
-        orderedRenders[i].draw();
-      } else {
-        orderedRenders[i].draw();
-      }
+      orderedRenders[i].draw();
     }
 
     p5.pop();
   };
-}
-
-/**
- * Unnecessary function that are part of the week 12 instructions
- * @param clouds
- */
-function drawClouds(clouds: Cloud[]) {
-  // This really should be a forEach, but the instructions asked for a for loop
-  // While the for loop is a bit more performant, but the difference is negligible
-  // and forEach is more readable.
-  for (let i = 0; i < clouds.length; i++) {
-    clouds[i].draw();
-  }
-}
-
-/**
- * Function exists only to comply with week 12 instructions
- *
- * @param mountains
- */
-function drawMountains(mountains: Mountain[]) {
-  // This really should be a forEach, but the instructions asked for a for loop
-  // While the for loop is a bit more performant, but the difference is negligible
-  // and forEach is more readable.
-  for (let i = 0; i < mountains.length; i++) {
-    mountains[i].draw();
-  }
-}
-
-/**
- * Function exists only to comply with week 12 instructions
- * @param canyons
- */
-function drawCanyons(canyons: Canyon[]) {
-  // Ok - here is how it should be done. I feel I can get away with this now
-  // Since you didn't specify anything as regards to canyons
-  canyons.forEach((canyon: Canyon) => {
-    canyon.draw();
-  });
 }
 
 /**

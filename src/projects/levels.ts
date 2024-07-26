@@ -38,9 +38,11 @@ export function levelOne(p5: P5CanvasInstance): {
   const canyons = [
     new Canyon(p5, 200, 432, 1, 50),
     new Canyon(p5, 1671.25, 432, 1, 30),
+    new Canyon(p5, 3571.25, 432, 1, 100),
   ];
 
   canyons[1].setChanceForCreviceWidthChange(30);
+  canyons[2].setChanceForCreviceWidthChange(5);
 
   const collectables = [
     new Collectable(p5, 800, 400, 1),
@@ -72,6 +74,31 @@ export function levelOne(p5: P5CanvasInstance): {
     new Tree(p5, 2689, 339, 1),
     new Tree(p5, 2709, 400, 1),
     new Tree(p5, 2809, 350, 1),
+    new Tree(p5, 2925, 340, 1),
+    new Tree(p5, 2965, 300, 1),
+    new Tree(p5, 3000, 422, 1),
+    new Tree(p5, 4690, 321, 1),
+    new Tree(p5, 3200, 398, 1),
+    new Tree(p5, 3300, 290, 1),
+    new Tree(p5, 4810, 325, 1),
+    new Tree(p5, 3390, 301, 1),
+    new Tree(p5, 4990, 375, 1),
+    new Tree(p5, 3425, 382, 1),
+    new Tree(p5, 3800, 330, 1),
+    new Tree(p5, 3875, 320, 1),
+    new Tree(p5, 5192, 339, 1),
+    new Tree(p5, 4000, 400, 1),
+    new Tree(p5, 4170, 350, 1),
+    new Tree(p5, 4208, 340, 1),
+    new Tree(p5, 4299, 300, 1),
+    new Tree(p5, 4350, 422, 1),
+    new Tree(p5, 4376, 321, 1),
+    new Tree(p5, 4399, 398, 1),
+    new Tree(p5, 4460, 290, 1),
+    new Tree(p5, 4472, 325, 1),
+    new Tree(p5, 4481, 301, 1),
+    new Tree(p5, 4500, 375, 1),
+    new Tree(p5, 4530, 382, 1),
   ];
 
   return {

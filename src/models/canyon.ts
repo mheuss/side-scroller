@@ -105,10 +105,12 @@ export class Canyon extends Sprite {
   private shouldCreviceChange = () => {
     const { crevice } = this;
 
-    const changePercent = this.randomInt(0, 100);
+    if (!crevice.velocity) {
+      const rolledPercent = this.randomInt(0, 100);
 
-    if (changePercent < crevice.chanceForChange) {
-      crevice.velocity = (this.randomInt(0, 4) - 2) / 5;
+      if (rolledPercent < crevice.chanceForChange) {
+        crevice.velocity = (this.randomInt(0, 6) - 2) / 2;
+      }
     }
 
     if (crevice.velocity === 0) {

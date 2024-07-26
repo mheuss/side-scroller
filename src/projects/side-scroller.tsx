@@ -5,9 +5,17 @@ import { colors } from "src/constants";
 import { Sprite } from "src/models/sprite";
 import { levelOne } from "src/projects/levels";
 import { Canyon } from "src/models/canyon";
+import { Cloud } from "src/models/cloud";
+import { Mountain } from "src/models/mountain";
+
+export const START_X = 520;
+export const START_Y = 420;
+
+export const viewPortWidth = 1024;
+export const viewPortHeight = 576;
 
 function sketch(p5: P5CanvasInstance) {
-  const pieceOfPaper = new PieceOfPaper(p5, 520, 420, 0.5);
+  const pieceOfPaper = new PieceOfPaper(p5, START_X, START_Y, 0.5);
 
   /*
   All of our level data is stored in the levelOne function. We can destructure it,
@@ -19,7 +27,7 @@ function sketch(p5: P5CanvasInstance) {
 
   /** Handles they key presses */
   p5.setup = () => {
-    const canvas = p5.createCanvas(1024, 576);
+    const canvas = p5.createCanvas(viewPortWidth, viewPortHeight);
     // Necessary for the canvas to be able to read pixel data at optimum speed
     canvas.canvas.getContext("2d", { willReadFrequently: true });
   };
@@ -65,25 +73,11 @@ function sketch(p5: P5CanvasInstance) {
     p5.push();
     p5.translate(-cameraPosX, 0);
 
-    // This really should be a forEach, but the instructions asked for a for loop
-    // While the for loop is a bit more performant, but the difference is negligible
-    // and forEach is more readable.
-    for (let i = 0; i < mountains.length; i++) {
-      mountains[i].draw();
-    }
+    drawMountains(mountains);
 
-    // This really should be a forEach, but the instructions asked for a for loop
-    // While the for loop is a bit more performant, but the difference is negligible
-    // and forEach is more readable.
-    for (let i = 0; i < clouds.length; i++) {
-      clouds[i].draw();
-    }
+    drawClouds(clouds);
 
-    // Ok - here is how it should be done. I feel I can get away with this now
-    // Since you didn't specify anything as regards to canyons
-    canyons.forEach((canyon: Canyon) => {
-      canyon.draw();
-    });
+    drawCanyons(canyons);
 
     // Let's get the trees, collectible, and piece of paper to render in a specific order
     const orderedRenders = [...trees_x, ...collectables, pieceOfPaper].sort(
@@ -98,7 +92,7 @@ function sketch(p5: P5CanvasInstance) {
 
     // Render them in order, so objects further away than the character are rendered
     // behind him
-    // This should be done with a forEach on the array - the built in iterator.
+    // This should be done with a forEach on the array - the built-in iterator.
     // But the course asked for a for loop, so here it is.
     for (let i = 0; i < orderedRenders.length; i++) {
       if (orderedRenders[i] instanceof PieceOfPaper) {
@@ -110,6 +104,45 @@ function sketch(p5: P5CanvasInstance) {
 
     p5.pop();
   };
+}
+
+/**
+ * Unnecessary function that are part of the week 12 instructions
+ * @param clouds
+ */
+function drawClouds(clouds: Cloud[]) {
+  // This really should be a forEach, but the instructions asked for a for loop
+  // While the for loop is a bit more performant, but the difference is negligible
+  // and forEach is more readable.
+  for (let i = 0; i < clouds.length; i++) {
+    clouds[i].draw();
+  }
+}
+
+/**
+ * Function exists only to comply with week 12 instructions
+ *
+ * @param mountains
+ */
+function drawMountains(mountains: Mountain[]) {
+  // This really should be a forEach, but the instructions asked for a for loop
+  // While the for loop is a bit more performant, but the difference is negligible
+  // and forEach is more readable.
+  for (let i = 0; i < mountains.length; i++) {
+    mountains[i].draw();
+  }
+}
+
+/**
+ * Function exists only to comply with week 12 instructions
+ * @param canyons
+ */
+function drawCanyons(canyons: Canyon[]) {
+  // Ok - here is how it should be done. I feel I can get away with this now
+  // Since you didn't specify anything as regards to canyons
+  canyons.forEach((canyon: Canyon) => {
+    canyon.draw();
+  });
 }
 
 /**

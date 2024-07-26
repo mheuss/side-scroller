@@ -6,35 +6,6 @@ up-to-date as it auto deploys on commit.__
 
 ----------
 
-Skip to the section if you want to miss the background:
-
-I want to start off by saying that I am a senior software engineer who has been programming
-professionally for 30+ years now.
-
-The 90s were a wild time in our profession, with start ups popping up everywhere. 
-I dropped out of college three times in those years and joined or started several
-new companies. When one of my businesses started making money, well, I never went back.
-
-I had promised myself that I would fix that situation one day. Here I am.
-
-Most of my academic work was so long ago it didn't fly when applying for UoL.
-I was admitted on a performance basis, and this is one the classes I've been required 
-to take to open up the full range of possibilities.
-
-While I am a full stack developer, I do quite a bit of work in Javascript/Typescript
-these days developing web applications in React/Tailwindcss. I've trained numerous
-junior developers in how to use javascript, best practices in the industry, etc. 
-
-I used Typescript/React/Tailwind here to scaffold this project. 
-
-So far, I am having a blast. I haven't worked on a video game since the late nineties. At that
-time my brother and I were part of a small company that developed software for the nintendo 64. There is
-a joy in this kind of development. Thanks for reacquainting me with it. 
-
-----------
-
-### TLDR;
-
 I need to warn you that I didn't just take the boilerplate provided by
 the course - I created a React based application, using typescript, and using 
 p5 wrapped by React. It was into that framework that I applied the boilerplate
@@ -57,7 +28,19 @@ To ease your job of reviewing this work, I've used extensive comments.
 
 ### Where to start
 
-src/projects/side-scroller.tsx houses the main code. Start there.
+You've been given a minified version of the source code - this is because I've
+included a number of dependencies that are not part of the standard p5 library
+nor the original boilerplate.
+
+So - to properly look at the source - you'll want to use developer tools in
+your browser to view source. I've included the source maps, and they'll give
+you an easy to read, easy to understand view of the code.
+
+You can also pull down the git repo, or view the code directly in github. 
+For that, go to https://github.com/mheuss/side-scroller
+
+All this being said - src/projects/side-scroller.tsx houses the main code. 
+Start there.
 
 ------------
 

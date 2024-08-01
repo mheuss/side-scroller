@@ -329,6 +329,16 @@ export class Sprite {
           this.p5.strokeWeight(...args);
           break;
 
+        case "text": {
+          const [str, x1, y1] = args;
+          this.p5.text(str, x + scale * x1, y + scale * y1);
+        }
+
+        case "textSize": {
+          const [size] = args;
+          this.p5.textSize(size);
+        }
+
         //  Triangle
         case "triangle": {
           const [x1, y1, x2, y2, x3, y3] = args;

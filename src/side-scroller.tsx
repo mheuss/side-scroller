@@ -4,6 +4,8 @@ import { PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
 import { Sprite } from "src/models/sprite";
 import { levelOne } from "src/levels";
+import { GameStats } from "src/game-stats";
+import { ScoreBoard } from "src/models/score-board";
 
 export const START_X = 520;
 export const START_Y = 420;
@@ -12,13 +14,18 @@ export const viewPortWidth = 1024;
 export const viewPortHeight = 576;
 
 function sketch(p5: P5CanvasInstance) {
+  // Get the scoreboard and stats initialized
+  const stats = new GameStats();
+  const scoreBoard = new ScoreBoard(p5, stats);
+
+  // Get our main character started
   const pieceOfPaper = new PieceOfPaper(p5, START_X, START_Y, 0.5);
 
   /*
   All of our level data is stored in the levelOne function. We can destructure it,
   and use that.
 
-  I choose to use this method so I can call more levels in the future.
+  I choose to use this method, so I can call more levels in the future.
    */
   const { trees, collectables, canyons, clouds, mountains } = levelOne(p5);
 
@@ -103,6 +110,8 @@ function sketch(p5: P5CanvasInstance) {
     }
 
     p5.pop();
+
+    scoreBoard.draw();
   };
 }
 

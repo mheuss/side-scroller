@@ -34,9 +34,7 @@ The code demonstrates structured design patterns for handling various states and
  */
 
 /*
-@todo This class is getting too big. I am going to need to refactor this, so
-no single class is more than 150+ lines. It just reduced the cognitive
-complexity.
+@todo This class is getting too big. I am going to need to refactor this
  */
 
 /**

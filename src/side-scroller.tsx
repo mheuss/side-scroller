@@ -3,7 +3,7 @@ import { P5CanvasInstance, ReactP5Wrapper } from "@p5-wrapper/react";
 import { PieceOfPaper } from "src/models/piece-of-paper";
 import { colors } from "src/constants";
 import { Sprite } from "src/models/sprite";
-import { levelOne } from "src/projects/levels";
+import { levelOne } from "src/levels";
 
 export const START_X = 520;
 export const START_Y = 420;

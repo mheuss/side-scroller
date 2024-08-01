@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SideScroller } from "src/projects/side-scroller";
+import { SideScroller } from "src/side-scroller";
 
 export const App = () => {
   return (

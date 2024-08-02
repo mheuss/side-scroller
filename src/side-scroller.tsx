@@ -27,7 +27,8 @@ function sketch(p5: P5CanvasInstance) {
 
   I choose to use this method, so I can call more levels in the future.
    */
-  const { trees, collectables, canyons, clouds, mountains } = levelOne(p5);
+  const { flagpole, trees, collectables, canyons, clouds, mountains } =
+    levelOne(p5);
 
   /** Set things up */
   p5.setup = () => {
@@ -51,7 +52,7 @@ function sketch(p5: P5CanvasInstance) {
     // Camera
 
     // Let's check for interactions
-    pieceOfPaper.checkForInteraction(collectables);
+    pieceOfPaper.checkForInteraction([...collectables, flagpole]);
 
     // Let's check for input
     pieceOfPaper.handleMovementAndOrientation();
@@ -91,15 +92,18 @@ function sketch(p5: P5CanvasInstance) {
 
     // Let's get the trees, collectible, and piece of paper to render in a
     // specific order
-    const orderedRenders = [...trees, ...collectables, pieceOfPaper].sort(
-      (a: Sprite, b: Sprite) => {
-        let firstY =
-          a instanceof PieceOfPaper ? a.getCalculatedY() : a.getBottomY();
-        let secondY =
-          b instanceof PieceOfPaper ? b.getCalculatedY() : b.getBottomY();
-        return firstY - secondY;
-      },
-    );
+    const orderedRenders = [
+      ...trees,
+      ...collectables,
+      pieceOfPaper,
+      flagpole,
+    ].sort((a: Sprite, b: Sprite) => {
+      let firstY =
+        a instanceof PieceOfPaper ? a.getCalculatedY() : a.getBottomY();
+      let secondY =
+        b instanceof PieceOfPaper ? b.getCalculatedY() : b.getBottomY();
+      return firstY - secondY;
+    });
 
     // Render them in order, so objects further away than the character are rendered
     // behind him

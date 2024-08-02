@@ -4,6 +4,7 @@ import { Canyon } from "src/models/canyon";
 import { Collectable } from "src/models/collectable";
 import { Tree } from "src/models/tree";
 import { P5CanvasInstance } from "@p5-wrapper/react";
+import { FlagPole } from "src/models/flag-pole";
 
 export function levelOne(p5: P5CanvasInstance): {
   mountains: Mountain[];
@@ -11,6 +12,7 @@ export function levelOne(p5: P5CanvasInstance): {
   canyons: Canyon[];
   collectables: Collectable[];
   trees: Tree[];
+  flagpole: FlagPole;
 } {
   const mountains: Mountain[] = [
     new Mountain(p5, 465, 150, 6),
@@ -101,7 +103,10 @@ export function levelOne(p5: P5CanvasInstance): {
     new Tree(p5, 4530, 382, 1),
   ];
 
+  const flagpole = new FlagPole(p5, 6000, 250, 1);
+
   return {
+    flagpole,
     mountains,
     clouds,
     canyons,

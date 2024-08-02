@@ -1,53 +1,55 @@
 const DEFAULT_NUMBER_OF_LIVES = 3;
 
+let score = 0;
+let lives = DEFAULT_NUMBER_OF_LIVES;
 export class GameStats {
-  private score = 0;
-  private lives = 0;
-
-  public constructor() {
-    this.reset();
-  }
-
   /**
    * Readies another game
    */
-  public reset() {
-    this.score = 0;
-    this.lives = DEFAULT_NUMBER_OF_LIVES;
+  public static reset() {
+    score = 0;
+    lives = DEFAULT_NUMBER_OF_LIVES;
   }
 
   /**
    * Returns the score
    */
-  public getScore() {
-    return this.score;
+  public static getScore() {
+    return score;
+  }
+
+  /**
+   * Adds to the score
+   */
+  public static addToScore(points: number = 1) {
+    score += points;
   }
 
   /**
    * This function will reset the lives property to 3 lives
    */
-  public resetLives() {
-    this.lives = DEFAULT_NUMBER_OF_LIVES;
+  public static resetLives() {
+    lives = DEFAULT_NUMBER_OF_LIVES;
   }
 
   /**
    * Returns the number of lives we care about
    */
-  public getLives() {
-    return this.lives;
+  public static getLives() {
+    return lives;
   }
 
   /**
    * Subtracts the number of lives
    */
-  public loseALife() {
-    return this.lives--;
+  public static loseALife() {
+    return lives--;
   }
 
   /**
    * Add another life to the total
    */
-  public addLife() {
-    return this.lives++;
+  public static addLife() {
+    return lives++;
   }
 }

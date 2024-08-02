@@ -5,8 +5,12 @@ import { Collectable } from "src/models/collectable";
 import { Tree } from "src/models/tree";
 import { P5CanvasInstance } from "@p5-wrapper/react";
 import { FlagPole } from "src/models/flag-pole";
+import { GameStats } from "src/game-stats";
 
-export function levelOne(p5: P5CanvasInstance): {
+export function levelOne(
+  p5: P5CanvasInstance,
+  gameStats: GameStats,
+): {
   mountains: Mountain[];
   clouds: Cloud[];
   canyons: Canyon[];

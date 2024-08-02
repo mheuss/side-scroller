@@ -16,7 +16,7 @@ export const viewPortHeight = 576;
 function sketch(p5: P5CanvasInstance) {
   // Get the scoreboard and stats initialized
   const stats = new GameStats();
-  const scoreBoard = new ScoreBoard(p5, stats);
+  const scoreBoard = new ScoreBoard(p5);
 
   // Get our main character started
   const pieceOfPaper = new PieceOfPaper(p5, START_X, START_Y, 0.5);
@@ -28,7 +28,7 @@ function sketch(p5: P5CanvasInstance) {
   I choose to use this method, so I can call more levels in the future.
    */
   const { flagpole, trees, collectables, canyons, clouds, mountains } =
-    levelOne(p5);
+    levelOne(p5, stats);
 
   /** Set things up */
   p5.setup = () => {

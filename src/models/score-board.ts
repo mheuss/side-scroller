@@ -4,11 +4,8 @@ import { P5CanvasInstance } from "@p5-wrapper/react";
 import { colors } from "src/constants";
 
 export class ScoreBoard extends Sprite {
-  private gameStatReference: null | GameStats = null;
-
-  public constructor(p5: P5CanvasInstance, gameStats: GameStats) {
+  public constructor(p5: P5CanvasInstance) {
     super(p5, 0, 0, 1);
-    this.gameStatReference = gameStats;
   }
 
   public draw() {
@@ -19,7 +16,7 @@ export class ScoreBoard extends Sprite {
       ["fill", colors.stoneGray],
       [
         "text",
-        `Score: ${this.gameStatReference?.getScore()}  Lives: ${this.gameStatReference?.getLives()}`,
+        `Score: ${GameStats.getScore()}  Lives: ${GameStats.getLives()}`,
         10,
         30,
       ],

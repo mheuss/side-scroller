@@ -1,16 +1,9 @@
 const DEFAULT_NUMBER_OF_LIVES = 3;
 
+// Game score is bad naming - we are in a game, so it is redundant. Going with score
 let score = 0;
 let lives = DEFAULT_NUMBER_OF_LIVES;
 export class GameStats {
-  /**
-   * Readies another game
-   */
-  public static reset() {
-    score = 0;
-    lives = DEFAULT_NUMBER_OF_LIVES;
-  }
-
   /**
    * Returns the score
    */
@@ -26,6 +19,14 @@ export class GameStats {
   }
 
   /**
+   * Readies another game
+   */
+  public static reset() {
+    score = 0;
+    lives = DEFAULT_NUMBER_OF_LIVES;
+  }
+
+  /**
    * This function will reset the lives property to 3 lives
    */
   public static resetLives() {
@@ -37,6 +38,13 @@ export class GameStats {
    */
   public static getLives() {
     return lives;
+  }
+
+  /**
+   * Awfully named function, but it is what was asked for.
+   */
+  public static checkPlayerDie() {
+    return lives < 1;
   }
 
   /**

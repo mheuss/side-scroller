@@ -15,6 +15,14 @@ export class FlagPole extends Sprite {
   ) {
     super(p5, x, y, scale);
   }
+
+  /**
+   * Returns whether or not this level is done
+   */
+  public isLevelComplete = () => {
+    return this.has_been_reached;
+  };
+
   /**
    * Have we crossed the finish?
    * @param character_x

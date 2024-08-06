@@ -55,6 +55,26 @@ export class Collectable extends Sprite {
   private transformSmileIncrement: number = 0;
   public className = "Collectable";
 
+  /**
+   * Are we within gather range?
+   * @param character_x
+   * @param character_y
+   */
+  public checkGathered = (character_x: number, character_y: number) => {
+    // Don't find what has been found
+    if (this.isFound) {
+      return;
+    }
+
+    // Check if we found it
+    if (this.collisionCheck(character_x, character_y)) {
+      this.isFound = true;
+
+      // If so, increment the score
+      GameStats.addToScore(1);
+    }
+  };
+
   // Initialize the coin
   constructor(p5: P5CanvasInstance, x: number, y: number, scale: number) {
     super(p5, x, y, scale ?? 1, { x: 0, y: 0, h: 150, w: 75 });
@@ -66,21 +86,6 @@ export class Collectable extends Sprite {
 
     this.smileArc = this.randomInt(SMILE_MIN, SMILE_MAX);
   }
-
-  /**
-   * Are we within gather range?
-   * @param character_x
-   * @param character_y
-   */
-  public checkGathered = (character_x: number, character_y: number) => {
-    if (this.isFound) {
-      return;
-    }
-    if (this.collisionCheck(character_x, character_y)) {
-      this.isFound = true;
-      GameStats.addToScore(1);
-    }
-  };
 
   /**
    * Change the smile.

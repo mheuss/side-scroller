@@ -6,6 +6,8 @@ import { Sprite } from "src/models/sprite";
 import { levelOne } from "src/levels";
 import { GameStats } from "src/game-stats";
 import { ScoreBoard } from "src/models/score-board";
+import { GameOver } from "src/models/game-over";
+import { LevelComplete } from "src/models/level-complete";
 
 export const START_X = 520;
 export const START_Y = 420;
@@ -22,29 +24,22 @@ function sketch(p5: P5CanvasInstance) {
   const pieceOfPaper = new PieceOfPaper(p5, START_X, START_Y, 0.5);
 
   /*
-  All of our level data is stored in the levelOne function. We can destructure it,
-  and use that.
-
-  I choose to use this method, so I can call more levels in the future.
-   */
+    All of our level data is stored in the levelOne function. We can destructure it,
+    and use that.
+  
+    I choose to use this method, so I can call more levels in the future.
+     */
   const { flagpole, trees, collectables, canyons, clouds, mountains } =
     levelOne(p5, stats);
+
+  const gameOver = new GameOver(p5);
+  const levelComplete: LevelComplete = new LevelComplete(p5);
 
   /** Set things up */
   p5.setup = () => {
     const canvas = p5.createCanvas(viewPortWidth, viewPortHeight);
     // Necessary for the canvas to be able to read pixel data at optimum speed
     canvas.canvas.getContext("2d", { willReadFrequently: true });
-  };
-
-  /** Handles key presses */
-  p5.keyPressed = () => {
-    pieceOfPaper.handleKeyPress();
-  };
-
-  /** Handles key releases */
-  p5.keyReleased = () => {
-    pieceOfPaper.handleKeyRelease();
   };
 
   /** Draw loop */
@@ -116,6 +111,49 @@ function sketch(p5: P5CanvasInstance) {
     p5.pop();
 
     scoreBoard.draw();
+
+    if (GameStats.checkPlayerDie()) {
+      gameOver.draw();
+
+      /** Handles key presses */
+      p5.keyPressed = () => {
+        const keyCode = p5.keyCode;
+        const key = p5.key;
+
+        if (p5.keyCode === 32 || p5.key.toLowerCase() === "w") {
+          GameStats.reset();
+        }
+      };
+
+      p5.keyReleased = () => {
+        return;
+      };
+
+      return;
+    } else if (flagpole.isLevelComplete()) {
+      levelComplete.draw();
+
+      /** Handles key presses */
+      p5.keyPressed = () => {
+        return;
+      };
+
+      p5.keyReleased = () => {
+        return;
+      };
+
+      return;
+    } else {
+      /** Handles key presses */
+      p5.keyPressed = () => {
+        pieceOfPaper.handleKeyPress();
+      };
+
+      /** Handles key releases */
+      p5.keyReleased = () => {
+        pieceOfPaper.handleKeyRelease();
+      };
+    }
   };
 }
 
